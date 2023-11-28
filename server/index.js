@@ -1,4 +1,4 @@
-const app = require("./app");
+const app = require("./server");
 
 async function main() {
   await app.listen();
