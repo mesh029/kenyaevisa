@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const path = require('path');
 const cors = require("cors");
 const expressStaticGzip = require("express-static-gzip");
-const cors = require('cors');
 require('dotenv').config() // Load environment variables from .env
 const app = express();
 const PORT = process.env.PORT || 5000;
