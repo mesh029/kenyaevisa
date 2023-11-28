@@ -20,7 +20,7 @@ app.get("*", expressStaticGzip(STATIC_FOLDER));
 app.use("*", expressStaticGzip(STATIC_FOLDER));
 
 // MongoDB Atlas connection URI
-const mongoURI = process.env.MONGO_URI;
+const mongoURI = "mongodb+srv://officialariri:geekMesh2019@cluster0.tfcu6yy.mongodb.net/"
 
 const visaRoutes = require('./routes/visaRoutes');
 app.use('/api/visas', visaRoutes);
