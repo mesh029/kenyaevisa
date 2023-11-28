@@ -19,11 +19,6 @@ app.use(expressStaticGzip(STATIC_FOLDER));
 app.get("*", expressStaticGzip(STATIC_FOLDER));
 app.use("*", expressStaticGzip(STATIC_FOLDER));
 
-async function listen() {
-  await app.listen(HTTP_PORT);
-
-  console.log(`Serving files in ${STATIC_FOLDER} on port ${HTTP_PORT}`);
-}
 // MongoDB Atlas connection URI
 const mongoURI = process.env.MONGO_URI;
 
@@ -47,9 +42,12 @@ connection.once('open', () => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+
+async function listen() {
+  await app.listen(HTTP_PORT);
+
+  console.log(`Serving files in ${STATIC_FOLDER} on port ${HTTP_PORT}`);
+}
 
 module.exports = {
   app,
