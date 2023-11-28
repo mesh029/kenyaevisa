@@ -34,16 +34,19 @@ app.use('/api/verify', emailVerificationRouter);
 
 
 
-// Connect to MongoDB
+
+// Start the server
+
+async function listen() {
+
+  // Connect to MongoDB
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log('MongoDB connection established successfully.');
 });
 
-// Start the server
-
-async function listen() {
+  
   await app.listen(HTTP_PORT);
 
   console.log(`Serving files in ${STATIC_FOLDER} on port ${HTTP_PORT}`);
