@@ -1,0 +1,11 @@
+{
+  "name": "kevisa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "cd server && npm install && cd ../client && npm install --force && npm run build"
+  },
+  "author": "mesh",
+  "license": "ISC"
+}

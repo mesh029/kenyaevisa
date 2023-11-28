@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require("cors");
+const expressStaticGzip = require("express-static-gzip");
+const path = require("path");
 const cors = require('cors');
 require('dotenv').config() // Load environment variables from .env
 const app = express();
@@ -11,6 +14,18 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const STATIC_FOLDER = path.join(__dirname, "../", "client/", "build/");
+const HTTP_PORT = Number(PORT);
+
+app.use(expressStaticGzip(STATIC_FOLDER));
+app.get("*", expressStaticGzip(STATIC_FOLDER));
+app.use("*", expressStaticGzip(STATIC_FOLDER));
+
+async function listen() {
+  await app.listen(HTTP_PORT);
+
+  console.log(`Serving files in ${STATIC_FOLDER} on port ${HTTP_PORT}`);
+}
 // MongoDB Atlas connection URI
 const mongoURI = process.env.MONGO_URI;
 
@@ -37,3 +52,8 @@ connection.once('open', () => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = {
+  app,
+  listen,
+};

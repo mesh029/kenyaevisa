@@ -109,7 +109,6 @@ const VisaSignUpForm = () => {
 */
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log(userData._id)
     console.log(values)
   };
 
@@ -217,15 +216,17 @@ const VisaSignUpForm = () => {
 
       try {
         const response = await axios.post(API_URL, flattenedData);
-        console.log('Visa application submitted successfully:', response.data);
+        console.log('Visa application submitted successfully:');
         alert('Visa submitted successfully!');
-        console.log('flattenedData here!', flattenedData);
       } catch (error) {
         console.error('Error submitting visa application:', error);
         alert('Failed to submit visa.');
+        console.log('something went wrong')
       }
     } else {
       alert('Please agree to the terms and conditions before submitting.');
+      console.log('something went right')
+
     }
   };
   return (
