@@ -1,0 +1,20 @@
+/* styles.css */
+.form-container {
+    width: 80%; /* Adjust the width as needed */
+    margin: 0 auto;
+  }
+  
+  /* Add more styles and adjust as needed for responsiveness */
+  @media (max-width: 768px) {
+    .form-container {
+      width: 90%; /* Adjust the width for smaller screens */
+    }
+  }
+  
+  /* Additional media queries and styles for different screen sizes */
+  @media (max-width: 576px) {
+    .form-container {
+      width: 95%; /* Adjust the width for even smaller screens */
+    }
+  }
+  

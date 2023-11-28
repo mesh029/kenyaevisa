@@ -1,0 +1,31 @@
+/* ProfilePage.css */
+
+.profile-page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fdfdfd; /* Light gray background */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-page h1 {
+    color: #333; /* Dark gray color for headers */
+  }
+  
+  .profile-page h2 {
+    color: #555; /* A slightly lighter gray for subheadings */
+  }
+  
+  .profile-page button {
+    margin-top: 10px;
+  }
+  
+  .visas-section {
+    margin-top: 20px;
+  }
+  
+  .visa-card {
+    margin-bottom: 10px;
+  }
+  

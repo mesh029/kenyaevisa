@@ -1,0 +1,50 @@
+/* home.css */
+.airplane-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.airplane {
+  width: 60px; /* Make the airplane a bit smaller */
+  height: 30px;
+  position: relative;
+  animation: moveAirplane 3s linear; /* Adjust animation duration */
+}
+
+.body {
+  width: 30px;
+  height: 8px;
+  background: blue;
+  border-radius: 50% 50% 0 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2; /* Set a higher z-index to place it above the trail */
+}
+
+.wing {
+  width: 22px;
+  height: 90px;
+  background: blue;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1; /* Set a lower z-index to place it below the body */
+}
+
+.trail {
+  width: 120px;
+  height: 2px;
+  background: blue;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+

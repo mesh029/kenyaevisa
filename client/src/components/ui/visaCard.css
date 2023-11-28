@@ -1,0 +1,26 @@
+/* VisaCard.css */
+
+.MuiCard-root {
+    border: 2px solid #e0e0e0; /* Light gray border */
+    border-radius: 16px; /* Rounded corners */
+    padding: 20px;
+    margin: 20px auto; /* Center the card and add some margin */
+    width: 80%; /* Set a fixed width or adjust as needed */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px; /* Margin for the action buttons */
+  }
+  
+  .MuiIconButton-root {
+    margin-left: 8px; /* Space between action buttons */
+  }
+  
+  /* Hover effect for the buttons */
+  .MuiIconButton-root:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+  

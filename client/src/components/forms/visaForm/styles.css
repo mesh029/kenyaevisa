@@ -1,0 +1,111 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.form-container {
+  width: 800px;
+  padding: 40px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 50px auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.progress {
+  height: 10px;
+  background-color: #3498db;
+  border-radius: 10px;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  padding: 10px;
+  border: 2px solid #3498db;
+  border-radius: 50%;
+  position: relative;
+}
+
+.step.active {
+  background-color: #3498db;
+  color: white;
+}
+
+.step-number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+}
+
+.step.active .step-number {
+  color: #fff;
+}
+
+.step:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -50%;
+  width: 100%;
+  height: 2px;
+  background-color: #3498db;
+}
+
+.step:first-child:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -50%;
+  width: 100%;
+  height: 2px;
+  background-color: #3498db;
+}
+
+
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+button:focus {
+  outline: none;
+}
+
+button.prev-button {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+button.prev-button:hover {
+  background-color: #ccc;
+}
+
+button.next-button, button.submit-button {
+  background-color: #3498db;
+  color: white;
+}
+
+button.next-button:hover, button.submit-button:hover {
+  background-color: #1a75c9;
+}
