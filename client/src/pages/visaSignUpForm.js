@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -8,7 +8,6 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import {setUserData } from '../actions/userActions';
-
 
 import Step1 from '../components/forms/visaForm/step1';
 import Step2 from '../components/forms/visaForm/step2';
@@ -48,11 +47,21 @@ const VisaSignUpForm = () => {
 
   const handleCardClick = (option) => {
     setProcessingOption(option);
-    handleNext()
   };
+  
+  useEffect(() => {
+    // This will run whenever processingOption changes
+    if (processingOption !== '') {
+      console.log('Processing option', processingOption);
+      handleNext();
+    }
+  }, [processingOption]);
 
   const [activeStep, setActiveStep] = useState(0);
-  const [values, setValues] = useState({
+
+
+  const [values, setValues] = useState(() => {
+    return JSON.parse(localStorage.getItem('visaFormValues')) || {
       fullName: '',  // Add other personal information fields as needed
       dateOfBirth: '',
       surname: '',
@@ -65,7 +74,8 @@ const VisaSignUpForm = () => {
       phoneNumber: '',
       passportNumber: '',      
     visaType: '',
-    status: '',
+    status: 'pending',
+    processingOption: '',
     placeOfIssue: '',
     dateOfIssue: '',
     expiryDate: '',
@@ -75,7 +85,16 @@ const VisaSignUpForm = () => {
       passportFrontCover: '',
       travelItinerary: '',
       returnTicket: '',
+    };
   });
+
+
+    // Update local storage whenever values change
+    useEffect(() => {
+      localStorage.setItem('visaFormValues', JSON.stringify(values));
+    }, [values]);
+  
+
 
   /*
   
@@ -112,11 +131,173 @@ const VisaSignUpForm = () => {
       otherImages: unflattenedData.personalnfo,  // Adjust the data type as needed
     },
   });
-  
+   
 
-*/
+*/ 
+
+useEffect(() => {
+  // Validate fields whenever 'values' changes
+  validateFields();
+}, [values]);
+
+
+
+const [validationErrorMessage, setValidationErrorMessage] = useState(''); // Add this line
+const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true); // Add this line
+
+
+const validateStep0 = () => {
+  const errors = {};
+  return errors;
+};
+
+const validateStep1 = () => {
+  const errors = {};
+
+  if (!values.fullName) {
+    errors.fullName = 'Full name is required';
+  }
+
+  if (!values.dateOfBirth) {
+    errors.dateOfBirth = 'Date of birth is required';
+  }
+
+  if (!values.surname) {
+    errors.surname = 'Surname/Family Name is required';
+  }
+
+  if (!values.gender) {
+    errors.gender = 'Gender is required';
+  }
+
+  if (!values.countryOfResidence) {
+    errors.countryOfResidence = 'Country of residence is required';
+  }
+
+  if (!values.presentNationality) {
+    errors.presentNationality = 'Present Nationality is required';
+  }
+
+  if (!values.nationalityAtBirth) {
+    errors.nationalityAtBirth = 'Nationality at birth is required';
+  }
+
+  if (!values.physicalAddress) {
+    errors.physicalAddress = 'Physical address is required';
+  }
+
+  if (!values.email) {
+    errors.email = 'Email is required';
+  } else if (!/^\S+@\S+\.\S+$/.test(values.email)) {
+    errors.email = 'Invalid email address';
+  }
+
+  if (!values.phoneNumber) {
+    errors.phoneNumber = 'Phone number is required';
+  }
+
+  // Add more validation logic as needed for Step 1
+
+  return errors;
+};
+
+const validateStep2 = () => {
+  const errors = {};
+
+  
+  if (!values.passportNumber) {
+    errors.passportNumber = 'Passport Number name is required';
+  }
+
+  if (!values.placeOfIssue) {
+    errors.placeOfIssue= 'Place Of Birthof birth is required';
+  }
+
+  if (!values.dateOfIssue) {
+    errors.dateOfIssue = 'Date Of Issue Name is required';
+  }
+
+  if (!values.expiryDate) {
+    errors.expiryDate = 'ExpiryDate is required';
+  }
+
+  if (!values.issuedBy) {
+    errors.issuedBy = 'issuedByis required';
+  }
+
+  if (!values.reasonForEntry) {
+    errors.reasonForEntry = 'Reason For Entry  is required';
+  }
+
+  return errors;
+};
+
+const validateStep3 = () => {
+  const errors = {};
+  if (!values.passportBioData) {
+    errors.passpotBioData = 'Passport Bio Data name is required';
+  }
+
+  if (!values.passportFrontCover) {
+    errors.passportFrontCover= 'Passport Front Cover is required';
+  }
+
+  if (!values.travelItinerary) {
+    errors.travelItinerary = 'Travel Itinerary is required';
+  }
+
+  if (!values.returnTicket) {
+    errors.returnTicket = 'Return Ticket is required';
+  }
+
+  return errors;
+};
+
+const validateStep4 = () => {
+  const errors = {};
+
+
+  return errors;
+};
+
+
+
+const validationFunctions = [
+  validateStep0,
+  validateStep1,
+  validateStep2,
+  validateStep3,
+  validateStep4,
+  // Add more validation functions for each step
+];
+
+const validateFields = () => {
+  const errors = validationFunctions[activeStep]();
+
+  // Check if there are any errors
+  const hasErrors = Object.keys(errors).length > 0;
+
+  // Update the disabled state of the "Next" button
+  setIsNextButtonDisabled(hasErrors);
+
+  if (hasErrors) {
+    setValidationErrorMessage('Please fill out all fields before proceeding.');
+  } else {
+    setValidationErrorMessage('');
+  }
+
+  return errors;
+};
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    const errors = validateFields();
+
+    if (Object.keys(errors).length === 0) {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      console.log(values);
+    } else {
+      console.log('Validation failed. Please fill in all required fields.');
+      // Optionally, you can display the errors or handle them in your UI
+    }
     console.log(values)
   };
 
@@ -164,10 +345,12 @@ const VisaSignUpForm = () => {
         physicalAddress: data.physicalAddress,
         email: data.email,
         phoneNumber: data.phoneNumber,
+        processingOption: processingOption,
 
       },
       visaType: selectedVisaType,
-      status: data.status,
+      status: "pending",
+      processingOption: processingOption,
       documentDetails: {
         passportNumber: data.passportNumber,
         placeOfIssue: data.placeOfIssue,
@@ -197,7 +380,7 @@ const VisaSignUpForm = () => {
     try {
       const response = await axios.post(API_URL, flattenedData);
       console.log('Visa application submitted successfully:', response.data);
-      alert('Visa submitted successfully!');
+      alert('Visa application submitted successfully!');
       console.log("flattenedData here!",flattenedData)
     } catch (error) {
       console.error('Error submitting visa application:', error);
@@ -225,8 +408,13 @@ const VisaSignUpForm = () => {
       try {
         const res = await axios.post(API_URL, flattenedData);
         console.log('Visa application submitted successfully:', res.data);
+        localStorage.removeItem('visaFormValues');
+
         alert('Visa submitted successfully!');
 
+
+
+        console.log(values)
         navigate('/admin');
 
       } catch (error) {
@@ -267,8 +455,14 @@ const VisaSignUpForm = () => {
         ) : (
           <Box>
             {getStepContent(activeStep, handleCardClick)}
+            {isNextButtonDisabled && (
+          <Typography mb={3} sx={{ color: 'black', textAlign: 'center', color: 'red'}}>
+            Please fill out all the required (*) fields correctly to continue
+          </Typography>
+        )}
 
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+
 
             {activeStep > 0 && ( 
     <Button
@@ -282,7 +476,7 @@ const VisaSignUpForm = () => {
     </Button>
   )}
   {activeStep < steps.length - 1 && activeStep > 0 && ( 
-    <Button variant="contained" onClick={handleNext}>
+    <Button variant="contained" onClick={handleNext} disabled={isNextButtonDisabled} >
       Next
     </Button>
   )}

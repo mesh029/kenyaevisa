@@ -8,6 +8,8 @@ export const ROUTES = {
     VISA_SIGN_UP_EDIT:'/visa-signup/edit/:id',
     ABOUT: '/about',
     ADMIN:'/admin',
-    FAQ: '/faq'
+    FAQ: '/faq',
+    REPORT: '/report'
+
   };
   

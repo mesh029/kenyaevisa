@@ -38,29 +38,27 @@ const visaSchema = new mongoose.Schema({
     phoneNumber:{
       type: String,
     },
-    
-
     // Add other personal information fields as needed
   },
   visaType: String,
   status: String,
+  processingOption: String,
   documentDetails: {
     passportNumber: String,
     placeOfIssue: String,
-    dateOfIssue: String,
     dateOfIssue: String,
     expiryDate: String,
     issuedBy: String,
     reasonForEntry: String,
   },
-
   uploads: {
     passportBioData: String,
-    passportBioData: String,
+    passportFrontCover: String,
     travelItinerary: String,
     returnTicket: String,  // Adjust the data type as needed
   },
-});
+
+}, { timestamps: true });
 
 const Visa = mongoose.model('Visa', visaSchema);
 

@@ -25,7 +25,7 @@ const countryList = [
 
 
 
-const Step1 = ({ values, handleChange }) => {
+const Step1 = ({ values, handleChange, handleNext, errors={} }) => {
   const handleChange2 = (value) => {
     // Create a synthetic event object
     const event = { target: { name: 'phoneNumber', value } };
@@ -43,7 +43,7 @@ const Step1 = ({ values, handleChange }) => {
           Personal Details
         </Typography>
 
-      <Grid container spacing={2}>
+        <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <TextField
             className="input-field"
@@ -53,6 +53,7 @@ const Step1 = ({ values, handleChange }) => {
             value={values?.surname}
             onChange={handleChange}
             fullWidth
+            required
           />
         </Grid>
 
@@ -66,6 +67,7 @@ const Step1 = ({ values, handleChange }) => {
             value={values?.fullName}
             onChange={handleChange}
             fullWidth
+            required
           />
         </Grid>  
 
@@ -79,6 +81,7 @@ const Step1 = ({ values, handleChange }) => {
         onChange={handleChange}
         value={values?.dateOfBirth}
         fullWidth
+        required
 
 
         InputLabelProps={{
@@ -96,6 +99,7 @@ const Step1 = ({ values, handleChange }) => {
             name="gender"
             value={values?.gender}
             onChange={handleChange}
+          
           >
             <FormControlLabel
               value="Female"
@@ -134,6 +138,7 @@ const Step1 = ({ values, handleChange }) => {
               name="countryOfResidence"
               value={values?.countryOfResidence}
               onChange={handleChange}
+              required
             />
           )}
         />
@@ -149,6 +154,7 @@ const Step1 = ({ values, handleChange }) => {
           onChange={handleChange}
           fullWidth
           InputProps={{ style: { borderRadius: '15px' } }}
+          required
         />
 
       </Grid>
@@ -162,6 +168,7 @@ const Step1 = ({ values, handleChange }) => {
           onChange={handleChange}
           fullWidth
           InputProps={{ style: { borderRadius: '15px' } }}
+          required
         />
       </Grid>
 
@@ -179,6 +186,7 @@ const Step1 = ({ values, handleChange }) => {
           fullWidth
           InputProps={{ style: { borderRadius: '15px' } }}
           placeholder="e.g., 123 Main Street, City, Country"
+          required
         />
       </Grid>
       <Grid item xs={12} sm={3} mt={3}>
@@ -198,18 +206,22 @@ const Step1 = ({ values, handleChange }) => {
     
       </Grid>
       <Grid item xs={12} sm={3}>
-        <TextField
-          className="input-field"
-          label="Email"
-          variant="outlined"
-          name="email"
-          value={values?.email}
-          onChange={handleChange}
-          fullWidth
-          InputProps={{ style: { borderRadius: '15px' } }}
-
-        />
-    </Grid>
+  <TextField
+    className="input-field"
+    label="Email"
+    variant="outlined"
+    name="email"
+    type="email"  // Set the input type to 'email'
+    value={values?.email}
+    onChange={handleChange}
+    fullWidth
+    InputProps={{
+      style: { borderRadius: '15px' },
+      placeholder: "example@example.com", // Add a placeholder
+    }}
+    required
+  />
+</Grid>
 
     </Container>
   );

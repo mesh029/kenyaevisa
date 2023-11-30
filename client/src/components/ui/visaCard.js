@@ -6,6 +6,7 @@ import { ROUTES } from '../../constants/constants';
 import { useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import axios from 'axios';
 import './visaCard.css'
@@ -28,28 +29,47 @@ const VisaCard = ({visa }) => {
     personalInfo,
     visaType,
     status,
-    travelDetails,
-    financialInfo,
-    healthInfo,
-    biometricInfo,
-    documentUpload,
-    imageUpload,
+    processingOption,
+    documentDetails,
+    uploads,
   } = visa;
 
   const {
     fullName,
     dateOfBirth,
-    passportNumber,
+    surname,
+    gender,
+    coutnryOfResidence,
+    presentNationalitym,
+    nationalityAtBirth,
+    physicalAddress,
+    email,
+    phoneNumber,
   } = personalInfo || {};
+ 
+  const {
+    passportNumber,
+    placeOfIssue,
+    dateOfIssue,
+    expiryDate,
+    issuedBy,
+    reasonForEntry,
+  } = documentDetails || {};
+ 
+  const {
+    passportBioData,
+    passportFrontCover,
+    travelItinerary,
+    returnTicket,
+  } = uploads|| {};
  
 
   const displayNA = (value) => (value || 'N/A');
 
 
-
-  const handleEditVisa = () => {
-    // Redirect to the VisaSignUpForm for editing the visa
-    navigate(`${ROUTES.VISA_SIGN_UP_EDIT}/edit/${visa._id}`);
+  const handleViewReport = () => {
+    // Redirect to the ReportPage for viewing the visa report
+    navigate(`${ROUTES.REPORT}/${visa._id}`);
   };
 
   const handleDeleteVisa = async () => {
@@ -57,7 +77,7 @@ const VisaCard = ({visa }) => {
   
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:5000/api/visas/visa/${visa._id}`);
+        await axios.delete(`https://kenyaevisa.mytests.online/api/visas/visa/${visa._id}`);
         alert('Visa deleted successfully!');
         window.location.reload(); // Refresh the page
       } catch (error) {
@@ -72,16 +92,16 @@ const VisaCard = ({visa }) => {
   return (
     <Card>
     <CardContent>
-      <Typography variant="h6">Visa Application for: {fullName || 'N/A'}</Typography>
+      <Typography variant="h6">Visa application  for {surname || 'N/A'} </Typography>
       <Typography variant="body1">Passport Number: {passportNumber || 'N/A'}</Typography>
       <Typography variant="body1">Visa Type: {visaType || 'N/A'}</Typography>
       <Typography variant="body1">Status: {status || 'N/A'}</Typography>
     </CardContent>
     <div className="actions">
-      <IconButton color="primary" onClick={handleEditVisa}>
+      <SummarizeIcon color="primary" onClick={handleViewReport}>
         <EditIcon />
-      </IconButton>
-      <IconButton color="secondary" onClick={handleDeleteVisa}>
+      </SummarizeIcon>
+      <IconButton style={{ color: 'red' }} onClick={handleDeleteVisa}>
         <DeleteOutlineIcon />
       </IconButton>
     </div>

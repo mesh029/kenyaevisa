@@ -37,6 +37,9 @@ const AdminPage = () => {
 
   return (
     <div style={{ overflow: 'auto', padding: 10, marginTop: "80px",  minHeight: '100vh', }}>
+      <Button variant="outlined" onClick={handleSignOut} style={{ marginTop: '10px' }}>
+        Sign Out
+      </Button>
       <FormControl variant="outlined">
         <InputLabel id="category-select-label">Category</InputLabel>
         <Select
@@ -56,9 +59,7 @@ const AdminPage = () => {
       ))}
 
 
-<Button variant="outlined" onClick={handleSignOut} style={{ marginTop: '10px' }}>
-        Sign Out
-      </Button>
+
     </div>
   );
 };

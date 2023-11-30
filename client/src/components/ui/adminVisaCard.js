@@ -16,14 +16,6 @@ const AdminVisaCard = ({ visa }) => {
         <VisaCard visa={visa}>
 
     </VisaCard>
-    <CardActions>
-        <Button onClick={handleViewReport} variant="outlined" color="primary">
-          View Report
-        </Button>
-        <Button onClick={handleViewReport} variant="outlined" color="primary">
-          View Report
-        </Button>
-      </CardActions>
 
     </>
 
