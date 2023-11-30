@@ -73,7 +73,7 @@ const Step2 = ({ values, handleChange }) => {
 className="input-field"
 label="Issued By"
 variant="outlined"
-name="physicalAddress"
+name="issuedBy"
 value={values?.issuedBy}
 onChange={handleChange}
 fullWidth
@@ -91,15 +91,16 @@ InputProps={{ style: { borderRadius: '15px' } }}
 <Grid item xs={12} sm={3}>
 <TextField
 className="input-field"
-label="Reason for entry"
+label="Reason For Entry"
 variant="outlined"
-name="email"
+name="reasonForEntry"
 value={values?.reasonForEntry}
 onChange={handleChange}
 fullWidth
 InputProps={{ style: { borderRadius: '15px' } }}
 
 />
+
 </Grid>
 
 </Container>

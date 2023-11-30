@@ -33,7 +33,7 @@ const Step3 = ({ values, handleChange }) => {
       <TextField
         label="Passport bio data page"
         variant="filled"
-        name="passportNumber"
+        name="passportBioData"
         value={selectedFile?.name}
         onChange={handleChange}
         fullWidth
@@ -73,7 +73,7 @@ const Step3 = ({ values, handleChange }) => {
       <TextField
         label="Passport front cover"
         variant="filled"
-        name="passportNumber"
+        name="passporFrontCover"
         value={selectedFile?.name}
         onChange={handleChange}
         fullWidth

@@ -23,15 +23,17 @@ const countryList = [
   'Kenya', 'Egypt'
 ];
 
-const handleChange2 = (value) => {
-  // Create a synthetic event object
-  const event = { target: { name: 'yourFieldName', value } };
-
-  // Call the handleChange function with the event object
-};
 
 
 const Step1 = ({ values, handleChange }) => {
+  const handleChange2 = (value) => {
+    // Create a synthetic event object
+    const event = { target: { name: 'phoneNumber', value } };
+  
+    // Call the handleChange function with the event object
+    handleChange(event);
+  
+  };
   const [phone, setPhone] = useState('');
 
 
@@ -91,17 +93,17 @@ const Step1 = ({ values, handleChange }) => {
         </Typography>
           <RadioGroup
             row
-            name="sex"
-            value={values?.sex}
+            name="gender"
+            value={values?.gender}
             onChange={handleChange}
           >
             <FormControlLabel
-              value="Male"
+              value="Female"
               control={<Radio color="primary" />}
               label="Male"
             />
             <FormControlLabel
-              value="Female"
+              value="Male"
               control={<Radio color="primary" />}
               label="Female"
             />
@@ -116,6 +118,14 @@ const Step1 = ({ values, handleChange }) => {
                    id="combo-box-demo"
           options={countryList}
           fullWidth
+          value={values?.countryOfResidence}
+          onChange={(event, newValue) => {
+            // Create a synthetic event object
+            const syntheticEvent = { target: { name: 'countryOfResidence', value: newValue } };
+        
+            // Call the handleChange function with the synthetic event object
+            handleChange(syntheticEvent);
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -130,37 +140,29 @@ const Step1 = ({ values, handleChange }) => {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-        <Autocomplete
-          options={countryList}
+        <TextField
+          className="input-field"
+          label="Present Nationality"
+          variant="outlined"
+          name="presentNationality"
+          value={values?.presentNationality}
+          onChange={handleChange}
           fullWidth
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Present Nationality"
-              variant="outlined"
-              name="presentNationality"
-              value={values?.presentNationality}
-              onChange={handleChange}
-              InputProps={{ style: { borderRadius: '15px' } }}
-            />
-          )}
+          InputProps={{ style: { borderRadius: '15px' } }}
         />
+
       </Grid>
       <Grid item xs={12} sm={6}>
-<Autocomplete
-            options={countryList}
-            fullWidth
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Nationality at birth"
-                name="nationalityAtBirth"
-                value={values?.nationalityAtBirth}
-                onChange={handleChange}
-                InputProps={{ style: { borderRadius: '15px' } }}
-              />
-            )}
-          />
+      <TextField
+          className="input-field"
+          label="nationality at Birth"
+          variant="outlined"
+          name="nationalityAtBirth"
+          value={values?.nationalityAtBirth}
+          onChange={handleChange}
+          fullWidth
+          InputProps={{ style: { borderRadius: '15px' } }}
+        />
       </Grid>
 
         {/* ... Other fields ... */}

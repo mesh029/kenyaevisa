@@ -5,12 +5,28 @@ const User = require('../models/userModel');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
 const Admin = require('../models/adminModel');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
-require('dotenv').config(); // Load environment variables from .env
 
+const app = express();
+
+require('dotenv').config();
+
+app.use(cookieParser());
+
+app.use(
+  session({
+    secret: 'your-secret-key', // Change this to a long, random string
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 const router = express.Router();
+const testJwtSecret = 'yourTestSecret'; // Replace with your actual test secret
 
+// Existing signup logic
 router.post('/signup', async (req, res) => {
   const { email, password } = req.body;
 
@@ -51,6 +67,7 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+// Existing login logic
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
@@ -60,21 +77,29 @@ router.post('/login', async (req, res) => {
 
     if (!user.isVerified) {
       return res.status(401).json({ message: 'Email not verified. Please verify your email.' });
-      
     }
+
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(400).json({ message: 'Invalid email or password.' });
 
-   // Send a response after email is sent
-   res.status(200).json({ message: 'Login was successfull.....',
-   user: user
-  });
+       // Generate JWT token
+       const payload = {
+        email: admin.email,
+        // Add other user-related data to the payload if needed
+      };
+      const token = jwt.sign(payload, testJwtSecret, { expiresIn: '1h' }); // Set the expiration time as needed
+  
+      // Send the token to the client
+      res.json({ token });
+  
+    res.status(200).json({ message: 'Login was successful.....', admin });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred during login.' });
-    console.log(error)
+    console.log(error);
   }
 });
 
+// Existing adminLogin logic
 router.post('/adminLogin', async (req, res) => {
   const { email, password } = req.body;
 
@@ -82,47 +107,29 @@ router.post('/adminLogin', async (req, res) => {
     const admin = await Admin.findOne({ email });
     if (!admin) return res.status(400).json({ message: 'Invalid email or password.' });
 
-
     const validPassword = await bcrypt.compare(password, admin.password);
     if (!validPassword) return res.status(400).json({ message: 'Invalid email or password.' });
 
-   // Send a response after email is sent
-   res.status(200).json({ message: 'Login was successfull.....'
-  });
+    // Generate JWT token
+    const payload = {
+      email: admin.email,
+      // Add other user-related data to the payload if needed
+    };
+    const token = jwt.sign(payload, testJwtSecret, { expiresIn: '1h' }); // Set the expiration time as needed
+
+    // Send the token to the client
+
+    res.json({
+      token ,
+      message: 'Login was successful.....',
+      admin,
+    });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred during login.' });
-    console.log(error)
+    console.log(error);
   }
 });
 
-router.post('/adminSignUp', async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create a new user instance
-    const admin = new Admin({ email, password: hashedPassword});
-    await admin.save();
-
-    res.status(200).json({ message: 'Admin registered successfully' });
-  } catch (error) {
-    console.error('Error during sign up:', error);
-    res.status(500).json({ error: 'An error occurred during sign up.' });
-  }
-});
-
-
+// ... (your other routes)
 
 module.exports = router;
-
-
-router.get('/user/:id', async (req, res) => {
-  const userId = req.params.id;
-  try {
-    const user = await User.findById(userId);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ error: 'An error occurred while fetching user data.' });
-  }
-});

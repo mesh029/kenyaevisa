@@ -15,6 +15,7 @@ import Step2 from '../components/forms/visaForm/step2';
 import Step3 from '../components/forms/visaForm/step3';
 import Step4 from '../components/forms/visaForm/step4';
 import Step0 from '../components/forms/visaForm/step0';
+import { useNavigate } from 'react-router-dom';
 
 import Footer from '../components/ui/footer';
 import { AppBar, Checkbox, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Toolbar } from '@mui/material';
@@ -23,10 +24,11 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom'; // Import useLocation
 
 
-const API_URL = 'http://localhost:5000/api/visas'; // Adjust the URL
+const API_URL = 'https://kenyaevisa.mytests.online/api/visas'; // Adjust the URL
 const steps = ['Step 1', 'Step 2', 'Step 3', 'step 4', 'step5']; // Adjust step labels accordingly
 
 const VisaSignUpForm = () => {
+
   const location = useLocation()
   const queryParams = new URLSearchParams(location.search);
   const selectedVisaType = queryParams.get('type');
@@ -35,6 +37,8 @@ const VisaSignUpForm = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const userData = useSelector((state) => state.user.userData);
+  const navigate = useNavigate();
+
 
   //cards
 
@@ -51,22 +55,26 @@ const VisaSignUpForm = () => {
   const [values, setValues] = useState({
       fullName: '',  // Add other personal information fields as needed
       dateOfBirth: '',
-      passportNumber:'',
+      surname: '',
+      gender: '',
+      countryOfResidence: '',
+      presentNationality: '',
+      nationalityAtBirth: '',
+      physicalAddress: '',
+      email: '',
+      phoneNumber: '',
+      passportNumber: '',      
     visaType: '',
     status: '',
-      intendedTravelDates: '',
-      purposeOfVisit: '',
+    placeOfIssue: '',
+    dateOfIssue: '',
+    expiryDate: '',
+    issuedBy: '',
+    reasonForEntry: '',
+      passportBiodata: '',
+      passportFrontCover: '',
       travelItinerary: '',
-      annualIncome: 0,
-      bankStatements: [],
-      medicalHistory: '',
-      currentMedications: '',
-      allergies: '',
-      fingerprintData: '',
-      facialRecognitionData: '',
-      passportCopy: '',  // Adjust the data type as needed
-      passportPhoto: '',  // Adjust the data type as needed
-      otherImages: [],  // Adjust the data type as needed
+      returnTicket: '',
   });
 
   /*
@@ -144,39 +152,39 @@ const VisaSignUpForm = () => {
 
   const flattenData = (data) => {
     const flattenedData = {
-      user: userData._id,
+      user: userData?._id,
       personalInfo:{
         fullName: data.fullName,  // Add other personal information fields as needed
         dateOfBirth: data.dateOfBirth,
-        passportNumber: data.passportNumber
+        surname: data.surname,
+        gender: data.gender,
+        countryOfResidence: data.countryOfResidence,
+        presentNationality: data.presentNationality,
+        nationalityAtBirth: data.nationalityAtBirth,
+        physicalAddress: data.physicalAddress,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+
       },
-      visaType: data.visaType,
+      visaType: selectedVisaType,
       status: data.status,
-      travelDetails: {
-        intendedTravelDates: data.intendedTravelDates,
-        purposeOfVisit: data.purposeOfVisit,
+      documentDetails: {
+        passportNumber: data.passportNumber,
+        placeOfIssue: data.placeOfIssue,
+        dateOfIssue: data.dateOfIssue,
+        expiryDate: data.expiryDate,
+        issuedBy: data.issuedBy,
+        reasonForEntry: data.reasonForEntry,
+
+      },
+      uploads: {
+        passportBioData: data.passportBioData,
+        passportFrontCover: data.passportFrontCover,
         travelItinerary: data.travelItinerary,
+        returnTicket: data.returnTicket,
+
       },
-      financialInfo: {
-        annualIncome: data.annualIncome,
-        bankStatements: data.bankStatements,
-      },
-      healthInfo: {
-        medicalHistory: data.medicalHistory,
-        currentMedications: data.currentMedications,
-        allergies: data.currentMedications,
-      },
-      biometricInfo: {
-        fingerprintData: data.fingerprintData,
-        facialRecognitionData: data.facialRecognitionData,
-      },
-      documentUpload: {
-        passportCopy: data.passportCopy,  // Adjust the data type as needed
-      },
-      imageUpload: {
-        passportPhoto: data.passportPhoto,  // Adjust the data type as needed
-        otherImages: data.personalnfo,  // Adjust the data type as needed
-      },
+  
     };
 
     return flattenedData;
@@ -215,14 +223,18 @@ const VisaSignUpForm = () => {
       const flattenedData = flattenData(values);
 
       try {
-        const response = await axios.post(API_URL, flattenedData);
-        console.log('Visa application submitted successfully:');
+        const res = await axios.post(API_URL, flattenedData);
+        console.log('Visa application submitted successfully:', res.data);
         alert('Visa submitted successfully!');
+
+        navigate('/admin');
+
       } catch (error) {
         console.error('Error submitting visa application:', error);
         alert('Failed to submit visa.');
         console.log('something went wrong')
       }
+      
     } else {
       alert('Please agree to the terms and conditions before submitting.');
       console.log('something went right')

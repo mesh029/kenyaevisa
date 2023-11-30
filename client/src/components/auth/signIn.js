@@ -20,27 +20,31 @@ const SignIn = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/adminLogin', { email, password });
+      const response = await axios.post('https://kenyaevisa.mytests.online/api/auth/adminLogin', { email, password });
       console.log('Admin signed in successfully!');
-
+  
       const adminData = response?.data;
       localStorage.setItem('adminData', JSON.stringify(adminData));
-
-
+  
+      const token = response?.data?.token;
+      console.log("admin", token);
+  
+      // Include the token directly in the headers for this request
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+  
       dispatch(setUserData(adminData));
-
-      console.log("admin", adminData)
-
       navigate(ROUTES.ADMIN);
     } catch (error) {
       console.error('Error signing in:', error.response.data);
-      console.log(email)
-      console.log(password)
+      console.log(email);
+      console.log(password);
     }
   };
-
+  
   return (
     <div style={{ maxWidth: '300px', margin: 'auto', minHeight: "100vh", marginTop:"80px" }}>
 
