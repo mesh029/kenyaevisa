@@ -22,8 +22,9 @@ import Footer from './components/ui/footer';
 import SignIn from './components/auth/signIn';
 import ProtectedRoute from './actions/protectedRoutes';
 import FAQ from './pages/faqPage';
-import ReportPage from './pages/reportPage';
 
+import ReportPage from './pages/reportPage';
+import TestPage from './pages/test';
 
 
 function App() {
@@ -58,6 +59,8 @@ const PrivateRoute = ({ element }) => {
       <Route path={ROUTES.FAQ} element={<FAQ/>} />
       <Route path={ROUTES.ADMIN} element={<PrivateRoute element={<AdminPage />} />} />
       <Route path={ROUTES.SIGN_IN} element={<SignIn/>} />
+      <Route path="/test" element={<TestPage/>} />
+
       <Route path={`${ROUTES.REPORT}/:visaId`} element={<ReportPage/>} />
 
       <Route path={`${ROUTES.VISA_SIGN_UP_EDIT}/edit/:id`}

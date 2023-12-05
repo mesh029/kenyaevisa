@@ -23,7 +23,7 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom'; // Import useLocation
 
 
-const API_URL = 'https://kenyaevisa.mytests.online/api/visas'; // Adjust the URL
+const API_URL = 'http://localhost:2000/api/visas'; // Adjust the URL
 const steps = ['Step 1', 'Step 2', 'Step 3', 'step 4', 'step5']; // Adjust step labels accordingly
 
 const VisaSignUpForm = () => {

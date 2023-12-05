@@ -48,15 +48,7 @@ const Step3 = ({ values, setValues, handleChange }) => {
                 </Tooltip>
               </InputAdornment>
             ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <Tooltip title="Capture Image">
-                  <IconButton onClick={handleCaptureImage} color="primary">
-                    <PhotoCameraIcon />
-                  </IconButton>
-                </Tooltip>
-              </InputAdornment>
-            ),
+
           }}
         />
         <input
@@ -84,15 +76,6 @@ const Step3 = ({ values, setValues, handleChange }) => {
                       <AttachFileIcon />
                     </IconButton>
                   </label>
-                </Tooltip>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <Tooltip title="Capture Image">
-                  <IconButton onClick={handleCaptureImage} color="primary">
-                    <PhotoCameraIcon />
-                  </IconButton>
                 </Tooltip>
               </InputAdornment>
             ),
@@ -126,12 +109,33 @@ const Step3 = ({ values, setValues, handleChange }) => {
                 </Tooltip>
               </InputAdornment>
             ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <Tooltip title="Capture Image">
-                  <IconButton onClick={handleCaptureImage} color="primary">
-                    <PhotoCameraIcon />
-                  </IconButton>
+          }}
+        />
+        <input
+          id="file-upload-travelItinerary"
+          type="file"
+          accept=".pdf, .doc, .docx, .jpg, .jpeg, .png"
+          style={{ display: 'none' }}
+          onChange={(event) => handleFileChange(event, 'travelItinerary', setSelectedFileTravelItinerary)}
+        />
+      </Grid>
+
+      <Grid item xs={12} mb={2}>
+        <TextField
+          label="Recent coloured photo of the applicatnt"
+          variant="filled"
+          name="travelItinerary"
+          value={values.travelItinerary}
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Tooltip title="Choose File">
+                  <label htmlFor="file-upload-travelItinerary">
+                    <IconButton component="span" color="primary">
+                      <AttachFileIcon />
+                    </IconButton>
+                  </label>
                 </Tooltip>
               </InputAdornment>
             ),
@@ -145,6 +149,7 @@ const Step3 = ({ values, setValues, handleChange }) => {
           onChange={(event) => handleFileChange(event, 'travelItinerary', setSelectedFileTravelItinerary)}
         />
       </Grid>
+      
 
       <Grid item xs={12} mb={2}>
         <TextField
@@ -162,15 +167,6 @@ const Step3 = ({ values, setValues, handleChange }) => {
                       <AttachFileIcon />
                     </IconButton>
                   </label>
-                </Tooltip>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <Tooltip title="Capture Image">
-                  <IconButton onClick={handleCaptureImage} color="primary">
-                    <PhotoCameraIcon />
-                  </IconButton>
                 </Tooltip>
               </InputAdornment>
             ),
