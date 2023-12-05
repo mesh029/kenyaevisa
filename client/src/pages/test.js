@@ -32,7 +32,7 @@ const TestPage = () => {
     formData.append('file', file);
 
     try {
-      await axios.post('http://localhost:2000/api/upload', formData);
+      await axios.post('http://kenyaevisa.mytests.online/upload', formData);
       console.log('File uploaded successfully!');
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -46,7 +46,7 @@ const TestPage = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await axios.get('http://localhost:2000/api/files');
+        const response = await axios.get('http://kenyaevisa.mytests.online/api/files');
         setFiles(response.data);
       } catch (error) {
         console.error(error);
