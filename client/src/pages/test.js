@@ -32,8 +32,8 @@ const TestPage = () => {
     formData.append('file', file);
 
     try {
-      await axios.post('https://kenyaevisa.mytests.online/upload', formData);
-      console.log('File uploaded successfully!');
+      await axios.post('https://kenyaevisa.mytests.online/api/upload', formData);
+      console.log('File uploaded successfully check out!');
     } catch (error) {
       console.error('Error uploading file:', error);
     }
