@@ -58,7 +58,7 @@ const TestPage = () => {
 
   const handleViewFile = (filename) => {
     // Open the file in a new window or tab
-    window.open(`http://localhost:2000/api/files/${encodeURIComponent(filename)}`, '_blank');
+    window.open(`https://kenyaevisa.mytests.online/api/files/${encodeURIComponent(filename)}`, '_blank');
   };
 
   const renderFileIcon = (fileType) => {
@@ -95,7 +95,7 @@ const TestPage = () => {
     <div>
       {file.filetype && file.filetype.startsWith('image') ? (
         <img
-          src={`http://localhost:2000/api/files/${encodeURIComponent(file.filename)}`}
+          src={`https://kenyaevisa.mytests.online//api/files/${encodeURIComponent(file.filename)}`}
           alt={file.originalname}
           style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '10px' }}
         />
