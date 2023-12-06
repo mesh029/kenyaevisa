@@ -58,6 +58,7 @@ const VisaSignUpForm = () => {
 
   const [activeStep, setActiveStep] = useState(0);
 
+  const[valuesUpload, setValuesUpload] = useState()
 
   const [values, setValues] = useState(() => {
     return JSON.parse(localStorage.getItem('visaFormValues')) || {
@@ -80,11 +81,6 @@ const VisaSignUpForm = () => {
     expiryDate: '',
     issuedBy: '',
     reasonForEntry: '',
-      passportBiodata: '',
-      passportFrontCover: '',
-      travelItinerary: '',
-      colouredPhoto: '',
-      returnTicket: '',
     };
   });
 
@@ -234,19 +230,19 @@ const validateStep2 = () => {
 
 const validateStep3 = () => {
   const errors = {};
-  if (!values.passportBioData) {
+  if (!values?.passportBioData) {
     errors.passpotBioData = 'Passport Bio Data name is required';
   }
 
-  if (!values.passportFrontCover) {
+  if (!values?.passportFrontCover) {
     errors.passportFrontCover= 'Passport Front Cover is required';
   }
 
-  if (!values.travelItinerary) {
+  if (!values?.travelItinerary) {
     errors.travelItinerary = 'Travel Itinerary is required';
   }
 
-  if (!values.returnTicket) {
+  if (!values?.returnTicket) {
     errors.returnTicket = 'Return Ticket is required';
   }
 
@@ -318,20 +314,44 @@ const validateFields = () => {
     colouredPhoto: null,
   });
 
+  const [errorMessage, setErrorMessage] = useState("Please upload all files to proceed");
+
+  const anyFieldIsNull = Object.values(fileValues).some((value) => value === null || value === undefined);
+  useEffect(() => {
+    setErrorMessage(anyFieldIsNull ? "Please upload all files to proceed" : null);
+  }, [fileValues]);
+  
   const handleFileChange = (event, fieldName) => {
     const file = event.target.files[0];
     const userEmail = values?.email; // Assuming `userData` contains the user information
-  
+
+
+        // Check if a file is selected
+        if (!file) {
+          setErrorMessage(`Please select a file for ${fieldName}.`);
+          setFileValues(null)
+          setValues(null)
+          return;
+        }
+    
+        // Check if the file type is allowed (PDF or image)
+        if (!file.type.startsWith('image/') && file.type !== 'application/pdf') {
+          setErrorMessage(`Only PDF and image files are allowed for ${fieldName}.`);
+          setFileValues(null)
+          setValues(null)        
+           return;
+        }
     setFileValues({
       ...fileValues,
-      [fieldName]: { file, user: userEmail }, // Include user information in fileValues
+      [fieldName]: { file, user: userEmail },
     });
-  
-    setValues({
-      ...values,
+
+    setValuesUpload({
+      ...valuesUpload,
       [fieldName]: file?.name,
     });
 
+ 
     console.log("file name", file)
   };
   
@@ -357,6 +377,8 @@ const handleUpload = async () => {
   try {
     await axios.post('http://localhost:2000/api/upload', formData);
     console.log('Files uploaded successfully! Check them out!');
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
   } catch (error) {
     console.error('Error uploading files:', error);
   }
@@ -373,9 +395,9 @@ const handleUpload = async () => {
       case 2:
         return <Step2 values={values} setValues={setValues} handleChange={handleChange} />;
       case 3:
-        return <Step3 values={values} setValues={setValues} handleChange={handleChange} handleFileChange={handleFileChange} handleUpload={handleUpload}  />;
+        return <Step3 values={valuesUpload} setValues={setValues} handleChange={handleChange} handleFileChange={handleFileChange} handleUpload={handleUpload} errorMessage={errorMessage} />;
         case 4:
-          return <Step4 values={values} setValues={setValues} fileValues />;
+          return <Step4 values={values} setValues={setValues} />;
 
       default:
         return 'Unknown step';
@@ -412,14 +434,6 @@ const handleUpload = async () => {
         reasonForEntry: data.reasonForEntry,
 
       },
-      uploads: {
-        passportBioData: data.passportBioData,
-        passportFrontCover: data.passportFrontCover,
-        travelItinerary: data.travelItinerary,
-        returnTicket: data.returnTicket,
-
-      },
-  
     };
 
     return flattenedData;
@@ -459,7 +473,6 @@ const handleUpload = async () => {
 
       try {
         const res = await axios.post(API_URL, flattenedData);
-        console.log('Visa application submitted successfully:', res.data);
         localStorage.removeItem('visaFormValues');
 
         alert('Visa submitted successfully!');
@@ -486,6 +499,7 @@ const handleUpload = async () => {
 
 <Typography variant='h6' fontWeight="bold" color="primary.main" sx={{ textAlign:'center', padding: '16px', fontFamily: 'Quicksand, sans-serif', color:'primary' }}>
 {selectedVisaType} Application Form </Typography>
+
 
 
 <Grid item xs={12} mb={2}>
@@ -519,6 +533,7 @@ const handleUpload = async () => {
           </Typography>
         )}
 
+
             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
 
 
@@ -533,11 +548,19 @@ const handleUpload = async () => {
       Back
     </Button>
   )}
-  {activeStep < steps.length - 1 && activeStep > 0 && ( 
+  {activeStep < steps.length - 1 && activeStep > 0 && activeStep !== 3 &&( 
     <Button variant="contained" onClick={handleNext} disabled={isNextButtonDisabled} >
       Next
     </Button>
   )}
+    {activeStep < steps.length - 1 && activeStep == 3 &&( 
+
+              <Button variant="contained" color="primary" onClick={handleUpload} disabled={errorMessage}>
+              Upload Files
+           </Button>
+  )}
+      
+
   {activeStep === steps.length - 1 && (
     <Button variant="contained" onClick={handleDialogOpen}>
       Submit

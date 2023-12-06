@@ -5,10 +5,7 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import axios from 'axios';
 
-const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, formData }) => {
-
- 
-
+const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, formData, errorMessage }) => {
   return (
     <Container maxWidth="sm">
       <Typography variant="body1" mb={3} fontWeight="bold" sx={{ color: 'black', textAlign: 'center', fontFamily: 'Quicksand, sans-serif' }}>
@@ -20,7 +17,7 @@ const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, f
           label="Passport bio data page"
           variant="filled"
           name="passportBioData"
-          value={values.passportBioData}
+          value={values?.passportBioData}
           fullWidth
           InputProps={{
             startAdornment: (
@@ -51,7 +48,7 @@ const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, f
           label="Passport front cover"
           variant="filled"
           name="passportFrontCover"
-          value={values.passportFrontCover}
+          value={values?.passportFrontCover}
           fullWidth
           InputProps={{
             startAdornment: (
@@ -81,7 +78,7 @@ const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, f
           label="Travel itinerary (optional)"
           variant="filled"
           name="travelItinerary"
-          value={values.travelItinerary}
+          value={values?.travelItinerary}
           fullWidth
           InputProps={{
             startAdornment: (
@@ -111,7 +108,7 @@ const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, f
           label="Coloured Photo"
           variant="filled"
           name="colouredPhoto"
-          value={values.colouredPhoto}
+          value={values?.colouredPhoto}
           fullWidth
           InputProps={{
             startAdornment: (
@@ -143,7 +140,7 @@ const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, f
           label="Return ticket"
           variant="filled"
           name="returnTicket"
-          value={values.returnTicket}
+          value={values?.returnTicket}
           fullWidth
           InputProps={{
             startAdornment: (
@@ -167,6 +164,10 @@ const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, f
           onChange={(event) => handleFileChange(event, 'returnTicket')}
         />
       </Grid>
+
+      {errorMessage &&       <Typography mb={3} sx={{ textAlign: 'center', color: 'red'}}>
+{errorMessage}      </Typography>
+}
 
     </Container>
   );
