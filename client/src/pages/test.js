@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 const TestPage = () => {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState([]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -32,7 +32,7 @@ const TestPage = () => {
     formData.append('file', file);
 
     try {
-      await axios.post('https://kenyaevisa.mytests.online/api/upload', formData);
+      await axios.post('http://localhost:2000/api/upload', formData);
       console.log('File uploaded successfully check out!');
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -46,7 +46,7 @@ const TestPage = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await axios.get('https://kenyaevisa.mytests.online/api/files');
+        const response = await axios.get('http://localhost:2000/api/files');
         setFiles(response.data);
       } catch (error) {
         console.error(error);
@@ -58,7 +58,7 @@ const TestPage = () => {
 
   const handleViewFile = (filename) => {
     // Open the file in a new window or tab
-    window.open(`https://kenyaevisa.mytests.online/api/files/${encodeURIComponent(filename)}`, '_blank');
+    window.open(`http://localhost:2000/api/files/${encodeURIComponent(filename)}`, '_blank');
   };
 
   const renderFileIcon = (fileType) => {
@@ -90,12 +90,13 @@ const TestPage = () => {
 
       <h2>File List</h2>
       <ul>
-      {files.map((file) => (
+      {Array.isArray(files) ? (
+      files.map((file) => (
   <li key={file._id}>
     <div>
       {file.filetype && file.filetype.startsWith('image') ? (
         <img
-          src={`https://kenyaevisa.mytests.online//api/files/${encodeURIComponent(file.filename)}`}
+          src={`http://localhost:2000/api/files/${encodeURIComponent(file.filename)}`}
           alt={file.originalname}
           style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '10px' }}
         />
@@ -114,7 +115,10 @@ const TestPage = () => {
 
     </div>
   </li>
-))}
+))
+) : (
+  <p>No files available.</p>
+)}
       </ul>
     </div>
   );
