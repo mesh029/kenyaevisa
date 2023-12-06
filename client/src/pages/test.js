@@ -96,7 +96,7 @@ const TestPage = () => {
     <div>
       {file.filetype && file.filetype.startsWith('image') ? (
         <img
-          src={`https://kenyaevisa.mytests.online/files/${encodeURIComponent(file.filename)}`}
+          src={`https://kenyaevisa.mytests.online/api/files/${encodeURIComponent(file.filename)}`}
           alt={file.originalname}
           style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '10px' }}
         />
