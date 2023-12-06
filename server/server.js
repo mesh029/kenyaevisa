@@ -18,6 +18,7 @@ const app = express();
 const CLIENT_PORT = process.env.CLIENT_PORT || 5000;
 const SERVER_PORT = process.env.SERVER_PORT || 2000;
 
+
 app.use(cors());
 app.use(express.json());
 
@@ -48,7 +49,8 @@ const fileSchema = new mongoose.Schema({
   originalname: String,
   size: Number,
   user: String,
-  filetype: String, // Add the 'filetype' property
+  filetype: String,
+  fieldName: String, // Add the 'filetype' property
   // Add any user-related information
   // Add other metadata fields as needed
 });
@@ -57,7 +59,7 @@ const File = mongoose.model('File', fileSchema);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, 'uploads/'));
+    cb(null, 'uploads/');
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname);
@@ -77,39 +79,73 @@ const fileFilter = (req, file, cb) => {
 
 const upload = multer({ storage: storage, fileFilter: fileFilter });
 
-app.post('/api/upload', upload.single('file'), async (req, res) => {
+
+app.post('/api/upload', upload.fields([
+  { name: 'passportBioData', maxCount: 1 },
+  { name: 'passportFrontCover', maxCount: 1 },
+  { name: 'returnTicket', maxCount: 1 },
+  { name: 'travelItinerary', maxCount: 1 },
+  { name: 'colouredPhoto', maxCount: 1 },
+]), async (req, res) => {
   try {
-    // Check if a file was successfully uploaded
-    if (!req.file) {
-      return res.status(400).send('No file uploaded.');
+    // Check if files were successfully uploaded
+    const passportBioData = req.files['passportBioData'];
+    const passportFrontCover = req.files['passportFrontCover'];
+    const returnTicket = req.files['returnTicket'];
+    const travelItinerary = req.files['travelItinerary'];
+    const colouredPhoto = req.files['colouredPhoto'];
+
+    if (!passportBioData || !passportFrontCover || !returnTicket || !travelItinerary|| !colouredPhoto ) {
+      return res.status(400).send('Missing files. Please upload all required files.');
     }
 
-    // Destructure properties from req.file if it exists
-    const { originalname, size, mimetype } = req.file;
+    // Handle each type of file
+    const handleFile = async (files, fieldName) => {
+      try {
+  
+      
+        const file = files[0]; // Assuming only one file is uploaded for each field
+    
+          const { originalname, size, mimetype, filename } = file;
 
-    // Check if the file type is PDF or image
-    if (mimetype.startsWith('image/') || mimetype === 'application/pdf') {
-      // Save file metadata to MongoDB, including the file type
-      const fileData = new File({
-        filename: req.file.filename,
-        originalname,
-        size,
-        user: req.body.user,
-        filetype: mimetype,
-        // Add other metadata fields as needed
-      });
+          // Save file metadata to MongoDB, including the file type
+          const userEmail = req.body[`${fieldName}_user`];
+          const fileData = new File({
+            filename: filename,
+            originalname: originalname,
+            size: size,
+            user: userEmail, // Adjust this based on how you're associating files with users
+            filetype: mimetype,
+            fieldName: fieldName,
+          // Add the fieldname to identify the type of file
+            // Add other metadata fields as needed
+          });
 
-      await fileData.save();
-      res.send('File uploaded successfully!');
-    } else {
-      // Reject the file if it's not a PDF or image
-      res.status(400).send('Only PDF and image files are allowed!');
-    }
+          await fileData.save();
+
+ 
+          console.log("These is the file data", fileData) // Save file data to the database
+
+          return true; // Indicate success
+
+      } catch (error) {
+        console.error(`Error handling ${fieldName}:`, error);
+      }
+    };
+
+    await handleFile(passportBioData, 'passportBioData');
+    await handleFile(passportFrontCover, 'passportFrontCover');
+    await handleFile(returnTicket, 'returnTicket');
+    await handleFile(travelItinerary, 'travelItinerary');
+    await handleFile(colouredPhoto, 'colouredPhoto');
+
+    res.send('Files uploaded successfully!');
   } catch (error) {
-    console.error('Error uploading file:', error);
+    console.error('Error uploading files:', error);
     res.status(500).send('Internal Server Error');
   }
 });
+
 
 
 // Serve a file using its filename

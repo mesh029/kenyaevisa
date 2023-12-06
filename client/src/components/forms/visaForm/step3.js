@@ -1,27 +1,13 @@
 import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
-import { Typography, IconButton, InputAdornment, Tooltip, Grid, Container } from '@mui/material';
+import { Typography, IconButton, InputAdornment, Tooltip, Grid, Container, Button } from '@mui/material';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import axios from 'axios';
 
-const Step3 = ({ values, setValues, handleChange }) => {
-  const [selectedFilePassportBioData, setSelectedFilePassportBioData] = useState(null);
-  const [selectedFilePassportFrontCover, setSelectedFilePassportFrontCover] = useState(null);
-  const [selectedFileTravelItinerary, setSelectedFileTravelItinerary] = useState(null);
-  const [selectedFileReturnTicket, setSelectedFileReturnTicket] = useState(null);
+const Step3 = ({ values, setValues,handleFileChange, fileValues, handleChange, formData }) => {
 
-  const handleFileChange = (event, fieldName, setSelectedFile) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-    setValues({ ...values, [fieldName]: file?.name });
-    // Do something with the selected file, like storing it in your state
-  };
-
-  const handleCaptureImage = () => {
-    // Implement image capture functionality here, e.g., using a camera API
-    // You can also open a camera modal or integrate a third-party library for image capture
-    alert('Capture an image using the camera');
-  };
+ 
 
   return (
     <Container maxWidth="sm">
@@ -56,7 +42,7 @@ const Step3 = ({ values, setValues, handleChange }) => {
           type="file"
           accept=".pdf, .doc, .docx, .jpg, .jpeg, .png"
           style={{ display: 'none' }}
-          onChange={(event) => handleFileChange(event, 'passportBioData', setSelectedFilePassportBioData)}
+          onChange={(event) => handleFileChange(event, 'passportBioData')}
         />
       </Grid>
 
@@ -86,7 +72,7 @@ const Step3 = ({ values, setValues, handleChange }) => {
           type="file"
           accept=".pdf, .doc, .docx, .jpg, .jpeg, .png"
           style={{ display: 'none' }}
-          onChange={(event) => handleFileChange(event, 'passportFrontCover', setSelectedFilePassportFrontCover)}
+          onChange={(event) => handleFileChange(event, 'passportFrontCover')}
         />
       </Grid>
 
@@ -116,22 +102,22 @@ const Step3 = ({ values, setValues, handleChange }) => {
           type="file"
           accept=".pdf, .doc, .docx, .jpg, .jpeg, .png"
           style={{ display: 'none' }}
-          onChange={(event) => handleFileChange(event, 'travelItinerary', setSelectedFileTravelItinerary)}
+          onChange={(event) => handleFileChange(event, 'travelItinerary')}
         />
       </Grid>
 
       <Grid item xs={12} mb={2}>
         <TextField
-          label="Recent coloured photo of the applicatnt"
+          label="Coloured Photo"
           variant="filled"
-          name="travelItinerary"
-          value={values.travelItinerary}
+          name="colouredPhoto"
+          value={values.colouredPhoto}
           fullWidth
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
                 <Tooltip title="Choose File">
-                  <label htmlFor="file-upload-travelItinerary">
+                  <label htmlFor="file-upload-colouredPhoto">
                     <IconButton component="span" color="primary">
                       <AttachFileIcon />
                     </IconButton>
@@ -142,13 +128,14 @@ const Step3 = ({ values, setValues, handleChange }) => {
           }}
         />
         <input
-          id="file-upload-travelItinerary"
+          id="file-upload-colouredPhoto"
           type="file"
           accept=".pdf, .doc, .docx, .jpg, .jpeg, .png"
           style={{ display: 'none' }}
-          onChange={(event) => handleFileChange(event, 'travelItinerary', setSelectedFileTravelItinerary)}
+          onChange={(event) => handleFileChange(event, 'colouredPhoto')}
         />
       </Grid>
+
       
 
       <Grid item xs={12} mb={2}>
@@ -177,7 +164,7 @@ const Step3 = ({ values, setValues, handleChange }) => {
           type="file"
           accept=".pdf, .doc, .docx, .jpg, .jpeg, .png"
           style={{ display: 'none' }}
-          onChange={(event) => handleFileChange(event, 'returnTicket', setSelectedFileReturnTicket)}
+          onChange={(event) => handleFileChange(event, 'returnTicket')}
         />
       </Grid>
 

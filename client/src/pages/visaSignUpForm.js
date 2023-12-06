@@ -17,13 +17,12 @@ import Step0 from '../components/forms/visaForm/step0';
 import { useNavigate } from 'react-router-dom';
 
 import Footer from '../components/ui/footer';
-import { AppBar, Checkbox, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Toolbar } from '@mui/material';
+import { AppBar, Checkbox, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Grid, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { useLocation } from 'react-router-dom'; // Import useLocation
 
-
-const API_URL = 'http://localhost:2000/api/visas'; // Adjust the URL
+const API_URL = 'https://kenyaevisa.mytests.online/api/visas'; // Adjust the URL
 const steps = ['Step 1', 'Step 2', 'Step 3', 'step 4', 'step5']; // Adjust step labels accordingly
 
 const VisaSignUpForm = () => {
@@ -84,6 +83,7 @@ const VisaSignUpForm = () => {
       passportBiodata: '',
       passportFrontCover: '',
       travelItinerary: '',
+      colouredPhoto: '',
       returnTicket: '',
     };
   });
@@ -310,6 +310,58 @@ const validateFields = () => {
     setValues({ ...values, [name]: value });
   };
 
+  const [fileValues, setFileValues] = useState({
+    passportBioData: null,
+    passportFrontCover: null,
+    returnTicket: null,
+    travelItinerary: null,
+    colouredPhoto: null,
+  });
+
+  const handleFileChange = (event, fieldName) => {
+    const file = event.target.files[0];
+    const userEmail = values?.email; // Assuming `userData` contains the user information
+  
+    setFileValues({
+      ...fileValues,
+      [fieldName]: { file, user: userEmail }, // Include user information in fileValues
+    });
+  
+    setValues({
+      ...values,
+      [fieldName]: file?.name,
+    });
+
+    console.log("file name", file)
+  };
+  
+  // Function to handle file uploads
+// Function to handle file uploads
+// Function to handle file uploads
+const handleUpload = async () => {
+  const formData = new FormData();
+
+  // Append files from the fileValues state to the formData
+  Object.keys(fileValues).forEach((fieldName) => {
+    const fileData = fileValues[fieldName];
+
+    // Check if fileData is not null
+    if (fileData && fileData.file) {
+      formData.append(fieldName, fileData.file);
+
+      // Include user information in formData
+      formData.append(`${fieldName}_user`, fileData.user);
+    }
+  });
+
+  try {
+    await axios.post('http://localhost:2000/api/upload', formData);
+    console.log('Files uploaded successfully! Check them out!');
+  } catch (error) {
+    console.error('Error uploading files:', error);
+  }
+};
+
 
   const getStepContent = (step, handleCardClick) => {
     switch (step) {
@@ -321,9 +373,9 @@ const validateFields = () => {
       case 2:
         return <Step2 values={values} setValues={setValues} handleChange={handleChange} />;
       case 3:
-        return <Step3 values={values} setValues={setValues} handleChange={handleChange} />;
+        return <Step3 values={values} setValues={setValues} handleChange={handleChange} handleFileChange={handleFileChange} handleUpload={handleUpload}  />;
         case 4:
-          return <Step4 values={values} setValues={setValues} handleChange={handleChange} />;
+          return <Step4 values={values} setValues={setValues} fileValues />;
 
       default:
         return 'Unknown step';
@@ -435,6 +487,12 @@ const validateFields = () => {
 <Typography variant='h6' fontWeight="bold" color="primary.main" sx={{ textAlign:'center', padding: '16px', fontFamily: 'Quicksand, sans-serif', color:'primary' }}>
 {selectedVisaType} Application Form </Typography>
 
+
+<Grid item xs={12} mb={2}>
+        <Button variant="contained" color="primary" onClick={handleUpload}>
+          Upload Files
+        </Button>
+      </Grid>
 <Typography variant="body1" mb={3} fontWeight="bold" sx={{ color: 'black', textAlign: 'center', fontFamily: 'Quicksand, sans-serif' }}>
             {processingOption}
             </Typography>
