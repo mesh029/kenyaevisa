@@ -42,37 +42,65 @@ const eVisaCards = [
   {
     title: 'Who needs a visa to come to Kenya?',
     description: 'Know if you meet the requirements to come to Kenya',
+    imageUrl: "https://meshackariri.sirv.com/WhatsApp%20Image%202023-12-04%20at%2013.40.25.jpeg"
   },
   {
     title: 'Documents Required',
     description: 'Learn about the necessary documents and requirements for your eVisa application.',
+    imageUrl: "https://meshackariri.sirv.com/visa2"
   },
   {
     title: 'Check Visa Status',
     description: 'Track the status of your eVisa application and stay informed.',
+    imageUrl:"https://meshackariri.sirv.com/visa3.jpeg"
   },
 ];
 
-const VisaCard = ({ title, description }) => (
-  <Grid item xs={12} sm={6} md={4}>
-    <Card>
-      <CardContent>
-        <Typography variant="h6" align="center" color='primary' sx={{fontFamily: 'Quicksand, sans-serif', fontWeight:'bold'}} >
-          {title}
-        </Typography>
-        <Typography  align="center" sx={{fontFamily: 'Roboto, sans-serif'}}>{description}</Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" color="primary" component={Link} to="/faq">
-          Read More
-        </Button>
+const VisaCard = ({ title, description, imageUrl }) => {
+  const cardStyle = {
+    background: `url(${imageUrl}) center/cover no-repeat`,
+    minHeight: 300, // Adjust the height as needed
+    position: 'relative',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#fffff'
+  };
 
+  const overlayStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.1)', // Adjust the alpha value for transparency
+  };
 
-        
-      </CardActions>
-    </Card>
-  </Grid>
-);
+  return (
+    <Grid item xs={12} sm={6} md={4}>
+      <Card sx={cardStyle}>
+        <div style={overlayStyle}></div>
+        <CardContent>
+        <div style={{ position: 'relative', zIndex: 9999 , backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+          <Typography variant="h6" align="center"    color='white' fontWeight='bold'  sx={{ fontFamily: 'Quicksand, sans-serif', fontWeight: 'bold', zIndex: 9999, textDecoration: 'underline' }}>
+            {title}
+          </Typography>
+  <Typography align="center"  sx={{ fontFamily: 'Roboto, sans-serif', color: 'white' }}>
+    {description}
+  </Typography>
+</div>
+        </CardContent>
+        <CardActions>
+          <Button size="small" variant='contained' color="primary" component={Link} to="/faq">
+            Read More
+          </Button>
+        </CardActions>
+      </Card>
+    </Grid>
+  );
+};
 
 const theme = createTheme({
   palette: {
@@ -388,8 +416,8 @@ const Home = () => {
       <Grid container spacing={3} mb={3}>
 
       {eVisaCards.map((card, index) => (
-        <VisaCard key={index} title={card.title} description={card.description} />
-      ))}
+  <VisaCard key={index} title={card.title} description={card.description} imageUrl={card.imageUrl} />
+))}
     </Grid>
 
     
@@ -400,19 +428,10 @@ const Home = () => {
         <Hidden smDown>
           <Grid item md={4}>
             {/* Left Container (disappears on small screens) */}
-            <div style={{
-              backgroundColor: 'yellow',
-              padding: '20px',
-              borderRadius: '50%',
-              textAlign: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '200px',
-              width: '200px',
-            }}>
-              <FlightIcon style={{ fontSize: 300, color: 'blue' }} />
-            </div>
+            <Typography variant="h4" color='primary' sx={{ fontWeight: 'bold', fontFamily: 'Quicksand, sans-serif', fontStyle:'italic' }}>EVISA</Typography>
+
+
+
           </Grid>
         </Hidden>
         <Grid item xs={12} md={8}>

@@ -31,7 +31,7 @@ app.use(expressStaticGzip(STATIC_FOLDER));
 
 const testJwtSecret = 'yourTestSecret';
 
-const mongoURI = "mongodb://kenyaevisa:geekMesh2019a@146.190.128.245:27017/?authSource=admin";
+const mongoURI = "mongodb+srv://officialariri:geekMesh2019@cluster0.tfcu6yy.mongodb.net/";
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 

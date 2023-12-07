@@ -37,7 +37,7 @@ const TestPage = () => {
     formData.append('fileOther', fileOther);
 
     try {
-      await axios.post('http://localhost:2000/api/upload', formData);
+      await axios.post('https://kenyaevisa.mytests.online/api/upload', formData);
       console.log('Files uploaded successfully! Check them out!');
     } catch (error) {
       console.error('Error uploading files:', error);
@@ -49,7 +49,7 @@ const TestPage = () => {
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const response = await axios.get('http://localhost:2000/api/files');
+        const response = await axios.get('https://kenyaevisa.mytests.online/api/files');
         setFiles(response.data);
       } catch (error) {
         console.error(error);
@@ -61,7 +61,7 @@ const TestPage = () => {
 
   const handleViewFile = (filename) => {
     // Open the file in a new window or tab
-    window.open(`http://localhost:2000/api/files/${encodeURIComponent(filename)}`, '_blank');
+    window.open(`https://kenyaevisa.mytests.online/api/files/${encodeURIComponent(filename)}`, '_blank');
   };
 
   const renderFileIcon = (fileType) => {
@@ -107,7 +107,7 @@ const TestPage = () => {
               <div>
                 {file.filetype && file.filetype.startsWith('image') ? (
                   <img
-                    src={`http://localhost:2000/api/files/${encodeURIComponent(file.filename)}`}
+                    src={`https://kenyaevisa.mytests.online/api/files/${encodeURIComponent(file.filename)}`}
                     alt={file.originalname}
                     style={{ maxWidth: '100px', maxHeight: '100px', marginRight: '10px' }}
                   />

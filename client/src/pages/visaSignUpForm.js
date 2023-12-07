@@ -375,7 +375,7 @@ const handleUpload = async () => {
   });
 
   try {
-    await axios.post('http://localhost:2000/api/upload', formData);
+    await axios.post('https://kenyaevisa.mytests.online/api/upload', formData);
     console.log('Files uploaded successfully! Check them out!');
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
@@ -500,13 +500,6 @@ const handleUpload = async () => {
 <Typography variant='h6' fontWeight="bold" color="primary.main" sx={{ textAlign:'center', padding: '16px', fontFamily: 'Quicksand, sans-serif', color:'primary' }}>
 {selectedVisaType} Application Form </Typography>
 
-
-
-<Grid item xs={12} mb={2}>
-        <Button variant="contained" color="primary" onClick={handleUpload}>
-          Upload Files
-        </Button>
-      </Grid>
 <Typography variant="body1" mb={3} fontWeight="bold" sx={{ color: 'black', textAlign: 'center', fontFamily: 'Quicksand, sans-serif' }}>
             {processingOption}
             </Typography>
