@@ -83,7 +83,7 @@ const VisaCard = ({ title, description, imageUrl }) => {
       <Card sx={cardStyle}>
         <div style={overlayStyle}></div>
         <CardContent>
-        <div style={{ position: 'relative', zIndex: 9999 , backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
+        <div style={{ position: 'relative', zIndex: 2 , backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
           <Typography variant="h6" align="center"    color='white' fontWeight='bold'  sx={{ fontFamily: 'Quicksand, sans-serif', fontWeight: 'bold', zIndex: 9999, textDecoration: 'underline' }}>
             {title}
           </Typography>

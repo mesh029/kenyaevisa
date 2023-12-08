@@ -54,9 +54,9 @@ const ReportPage = () => {
     }
   }, [visaData]);
 
-  const handleCardClick = (filename) => {
+  const handleCardClick = (fileURL) => {
     // Implement logic to show the document in a modal or a separate page
-    window.open(`https://kenyaevisa.mytests.online/api/files/${encodeURIComponent(filename)}`, '_blank');
+    window.open(`${fileURL}`, '_blank');
   };
 
     // Function to format document names
@@ -229,10 +229,10 @@ const ReportPage = () => {
           <Grid container spacing={2}>
             {userDocuments.map((document, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
-                <Paper elevation={2} style={{ padding: '8px', textAlign: 'center', cursor: 'pointer', width: 'auto' }} onClick={() => handleCardClick(document.filename)}>
+                <Paper elevation={2} style={{ padding: '8px', textAlign: 'center', cursor: 'pointer', width: 'auto' }} onClick={() => handleCardClick(document.cloudinaryUrl)}>
                   {document.filetype.startsWith('image/') ? (
                     <img
-                      src={`https://kenyaevisa.mytests.online/api/files/${encodeURIComponent(document.filename)}`}
+                      src={`${document.cloudinaryUrl}`}
                       alt={document.originalname}
                       style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '4px' }}
                     />

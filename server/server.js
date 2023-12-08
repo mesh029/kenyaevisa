@@ -10,6 +10,9 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');  // Add this line for Passport.js
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+const cloudinary = require('cloudinary').v2;
+const { Readable } = require('stream');
+
 
 require('dotenv').config();
 
@@ -44,27 +47,27 @@ connection.once('open', () => {
   console.log('MongoDB connection established successfully.');
 });
 
+cloudinary.config({
+  cloud_name: 'ddvfhefen',
+  api_key: '256688251141781',
+  api_secret: 'AHVbzTCaDJ658QBw6fKv8Mm7ZpM',
+});
+
 const fileSchema = new mongoose.Schema({
   filename: String,
   originalname: String,
   size: Number,
   user: String,
   filetype: String,
-  fieldName: String, // Add the 'filetype' property
+  fieldName: String,
+  cloudinaryUrl: String // Add the 'filetype' property
   // Add any user-related information
   // Add other metadata fields as needed
 });
 
 const File = mongoose.model('File', fileSchema);
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
-  },
-});
+const storage = multer.memoryStorage(); // Use memory storage for Cloudinary
 
 // File filter function
 const fileFilter = (req, file, cb) => {
@@ -102,37 +105,61 @@ app.post('/api/upload', upload.fields([
     // Handle each type of file
     const handleFile = async (files, fieldName) => {
       try {
-  
-      
         const file = files[0]; // Assuming only one file is uploaded for each field
     
-          const { originalname, size, mimetype, filename } = file;
-
-          // Save file metadata to MongoDB, including the file type
-          const userEmail = req.body[`${fieldName}_user`];
-          const fileData = new File({
-            filename: filename,
-            originalname: originalname,
-            size: size,
-            user: userEmail, // Adjust this based on how you're associating files with users
-            filetype: mimetype,
-            fieldName: fieldName,
-          // Add the fieldname to identify the type of file
-            // Add other metadata fields as needed
+        const { originalname, size, mimetype, buffer } = file;
+    
+        try {
+          // Create a readable stream from the buffer
+          const readableStream = new Readable();
+          readableStream.push(buffer);
+          readableStream.push(null);
+    
+          // Convert the readable stream to a Buffer
+          const bufferData = [];
+          readableStream.on('data', (chunk) => {
+            bufferData.push(chunk);
           });
-
-          await fileData.save();
-
- 
-          console.log("These is the file data", fileData) // Save file data to the database
-
+          await new Promise((resolve) => readableStream.on('end', resolve));
+          const fileBuffer = Buffer.concat(bufferData);
+    
+          // Upload file to Cloudinary using upload_stream
+          const result = await cloudinary.uploader.upload_stream(
+            { resource_type: 'auto', folder: 'your_upload_folder' }, // Set your desired Cloudinary folder
+            async (error, result) => {
+              if (error) {
+                console.error(`Error uploading to Cloudinary:`, error.message);
+                throw error; // Propagate the error up
+              }
+    
+              // Save Cloudinary URL and other metadata to MongoDB
+              const userEmail = req.body[`${fieldName}_user`];
+              const fileData = new File({
+                filename: result.public_id,
+                originalname: originalname,
+                size: size,
+                user: userEmail,
+                filetype: mimetype,
+                fieldName: fieldName,
+                cloudinaryUrl: result.secure_url,
+                // Add other metadata fields as needed
+              });
+    
+              await fileData.save();
+    
+              console.log('This is the file data', fileData);
+            }
+          ).end(fileBuffer);
+    
           return true; // Indicate success
-
+        } catch (cloudinaryError) {
+          console.error(`Error uploading to Cloudinary:`, cloudinaryError.message);
+          throw cloudinaryError; // Propagate the error up
+        }
       } catch (error) {
         console.error(`Error handling ${fieldName}:`, error);
       }
     };
-
     await handleFile(passportBioData, 'passportBioData');
     await handleFile(passportFrontCover, 'passportFrontCover');
     await handleFile(returnTicket, 'returnTicket');

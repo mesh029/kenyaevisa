@@ -40,7 +40,7 @@ const ReusableAppBar = () => {
   ));
 
   return (
-    <AppBar position="fixed" style={{ background: 'black' }}>
+    <AppBar position="fixed" style={{ background: 'black', zIndex: 9999 }}>
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           <Link to="/" style={{ textDecoration: 'none', color: 'white', ffontFamily: 'Quicksand, sans-serif' }}>

@@ -11,7 +11,7 @@ const AdminPage = () => {
     const fetchData = async () => {
       try {
         // Fetch all visas from your API
-        const response = await axios.get('http://localhost:2000/api/allVisas');
+        const response = await axios.get('https://kenyaevisa.mytests.online/api/allVisas');
         setVisas(response.data);
         console.log(visas)
       } catch (error) {
