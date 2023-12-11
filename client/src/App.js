@@ -25,6 +25,15 @@ import FAQ from './pages/faqPage';
 
 import ReportPage from './pages/reportPage';
 import TestPage from './pages/test';
+import Requirements from './pages/requirements';
+import Documents from './pages/drfv';
+import WhoNeedsAVisa from './pages/wnav';
+import axios from 'axios';
+
+
+
+
+
 
 
 function App() {
@@ -35,6 +44,7 @@ const isAuthenticated = () => {
   // Check if the user is authenticated (e.g., by checking the presence of adminData in localStorage)
   return localStorage.getItem('adminData') !== null;
 };
+
 
 const PrivateRoute = ({ element }) => {
   // If the user is authenticated, render the provided element (AdminPage), otherwise, redirect to the sign-in page
@@ -60,6 +70,11 @@ const PrivateRoute = ({ element }) => {
       <Route path={ROUTES.ADMIN} element={<PrivateRoute element={<AdminPage />} />} />
       <Route path={ROUTES.SIGN_IN} element={<SignIn/>} />
       <Route path="/test" element={<TestPage/>} />
+
+      <Route path="/requirements" element={<Requirements/>} />
+      <Route path="/documents" element={<Documents/>} />
+      <Route path="/who-needs-a-visa" element={<WhoNeedsAVisa/>} />
+
 
       <Route path={`${ROUTES.REPORT}/:visaId`} element={<ReportPage/>} />
 

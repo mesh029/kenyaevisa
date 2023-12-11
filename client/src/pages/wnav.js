@@ -3,8 +3,7 @@ import { Container, Typography, Accordion, AccordionSummary, AccordionDetails, T
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ScrollToTopOnMount from '../components/hoc/scrollToTop';
 
-
-const FAQ = () => {
+const WhoNeedsAVisa = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchTerms, setSearchTerms] = useState({});
 
@@ -115,76 +114,47 @@ const FAQ = () => {
   ];
   return (
     <Container maxWidth="lg" style={{ marginTop: '80px', minHeight: '100vh' }}>
-    <Typography variant="h5" gutterBottom style={{ textAlign: 'center', fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
-      Frequently Asked Questions
-    </Typography>
-      <Accordion id="time-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            How long does take to get a visa?
+          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+            Who Needs a Visa to Come to Kenya?
           </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          How long it actually takes to get a visa
-        </AccordionDetails>
-      </Accordion>
+          {visaCategories.map((category) => (
+            <Accordion key={category.category}>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="subtitle1" gutterBottom style={{ fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+                  {category.category}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                                  {category.introduction}
 
-      <Accordion id="validity-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            How long is a visa valid for?
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        Answer        </AccordionDetails>
-      </Accordion>
-
-      <Accordion id="refund-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            Will my fees be returened if my application is denied??
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        Answer        </AccordionDetails>
-      </Accordion>
-
-      <Accordion id="visited-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            I have already visited the destination country, do I need to apply for another e-visa?
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        Answer        </AccordionDetails>
-      </Accordion>
-
-      <Accordion id="exted-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            Can I extend my stay in destination country?
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        Answer        </AccordionDetails>
-      </Accordion>
-
-      <Accordion id="requirements-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif'}}>
-            If I cancel my online order will my fees be refunded?
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          Answer
-        </AccordionDetails>
-      </Accordion>
-
-    {/* Add more FAQ items as needed */}
+                {category.category !== 'Persons who do not require a Visa to Enter Kenya' && (
+                  <TextField
+                    label={`Search for your country in ${category.category}`}
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    onChange={(e) => handleSearchChange(category.category, e.target.value)}
+                  />
+                )}
+                <List style={{ listStyleType: 'none', padding: 0 }}>
+                  {category.countries
+                    .filter((country) =>
+                      searchTerms[category.category]
+                        ? country.toLowerCase().includes(searchTerms[category.category].toLowerCase())
+                        : true
+                    )
+                    .map((country, index) => (
+                      <ListItem key={index}>
+                        <ListItemText primary={country} />
+                      </ListItem>
+                    ))}
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          ))}
   </Container>
 
   );
 };
 
-
-export default ScrollToTopOnMount(FAQ);
+export default ScrollToTopOnMount(WhoNeedsAVisa);

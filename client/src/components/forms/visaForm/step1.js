@@ -354,12 +354,12 @@ const Step1 = ({ values, handleChange, handleNext, errors={} }) => {
           
           >
             <FormControlLabel
-              value="Female"
+              value="Male"
               control={<Radio color="primary" />}
               label="Male"
             />
             <FormControlLabel
-              value="Male"
+              value="Female"
               control={<Radio color="primary" />}
               label="Female"
             />

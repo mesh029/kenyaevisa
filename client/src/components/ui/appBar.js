@@ -6,8 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 const menuItems = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
-  { label: 'Blog', path: '/blog' },
-  { label: 'Travel', path: '/travel' },
+  { label: 'FAQs', path: '/faq' },
 ];
 
 const ReusableAppBar = () => {

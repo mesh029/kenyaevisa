@@ -21,6 +21,7 @@ import { AppBar, Checkbox, CssBaseline, Dialog, DialogActions, DialogContent, Di
 import { Link } from 'react-router-dom';
 
 import { useLocation } from 'react-router-dom'; // Import useLocation
+import ScrollToTopOnMount from '../components/hoc/scrollToTop';
 
 const API_URL = 'https://kenyaevisa.mytests.online/api/visas'; // Adjust the URL
 const steps = ['Step 1', 'Step 2', 'Step 3', 'step 4', 'step5']; // Adjust step labels accordingly
@@ -140,7 +141,7 @@ useEffect(() => {
 
 const [validationErrorMessage, setValidationErrorMessage] = useState(''); // Add this line
 const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(true); // Add this line
-
+const [uniqueIdAssigned, setUniqueIdAssigned] = useState(false);
 
 const validateStep0 = () => {
   const errors = {};
@@ -284,12 +285,28 @@ const validateFields = () => {
 
   return errors;
 };
+
+const generateUniqueId = () => {
+  // Implement your logic to generate a unique ID (e.g., using a library like uuid)
+  // For demonstration purposes, using a simple timestamp-based ID
+  return `visa_${Date.now()}`;
+};
   const handleNext = () => {
     const errors = validateFields();
 
     if (Object.keys(errors).length === 0) {
+      if (activeStep === 0 && !uniqueIdAssigned) {
+        // Generate uniqueId only on step one if not already assigned
+        const uniqueId = generateUniqueId();
+        setValues((prevValues) => ({
+          ...prevValues,
+          uniqueId: uniqueId,
+        }));
+        setUniqueIdAssigned(true); // Set the flag to indicate that uniqueId has been assigned
+      }
+
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      console.log(values);
+      console.log("uniqueID",values);
     } else {
       console.log('Validation failed. Please fill in all required fields.');
       // Optionally, you can display the errors or handle them in your UI
@@ -323,7 +340,8 @@ const validateFields = () => {
   
   const handleFileChange = (event, fieldName) => {
     const file = event.target.files[0];
-    const userEmail = values?.email; // Assuming `userData` contains the user information
+    const userEmail = values?.email;
+    const uniqueId = values?.uniqueId; // Assuming `userData` contains the user information
 
 
         // Check if a file is selected
@@ -343,7 +361,7 @@ const validateFields = () => {
         }
     setFileValues({
       ...fileValues,
-      [fieldName]: { file, user: userEmail },
+      [fieldName]: { file, user: uniqueId },
     });
 
     setValuesUpload({
@@ -358,6 +376,8 @@ const validateFields = () => {
   // Function to handle file uploads
 // Function to handle file uploads
 // Function to handle file uploads
+
+//http://localhost:2000/api/allVisas
 const handleUpload = async () => {
   const formData = new FormData();
 
@@ -388,7 +408,7 @@ const handleUpload = async () => {
   const getStepContent = (step, handleCardClick) => {
     switch (step) {
       case 0:
-        return <Step0 values={values} setValues={setValues} handleChange={handleChange} handleCardClick={handleCardClick} />;
+        return <Step0 visaType={selectedVisaType} values={values} setValues={setValues} handleChange={handleChange} handleCardClick={handleCardClick} />;
 
       case 1:
         return <Step1 values={values} setValues={setValues} handleChange={handleChange}/>;
@@ -407,6 +427,7 @@ const handleUpload = async () => {
 
   const flattenData = (data) => {
     const flattenedData = {
+      uniqueId: data.uniqueId, 
       user: userData?._id,
       personalInfo:{
         fullName: data.fullName,  // Add other personal information fields as needed
@@ -467,8 +488,10 @@ const handleUpload = async () => {
     setDialogOpen(false);
   };
 
+
   const handleFinalSubmit = async () => {
     if (agreeChecked) {
+
       const flattenedData = flattenData(values);
 
       try {
@@ -480,7 +503,7 @@ const handleUpload = async () => {
 
 
         console.log(values)
-        navigate('/admin');
+        navigate('/');
 
       } catch (error) {
         console.error('Error submitting visa application:', error);
@@ -619,4 +642,5 @@ const handleUpload = async () => {
   );
 };
 
-export default VisaSignUpForm;
+export default ScrollToTopOnMount(VisaSignUpForm);
+

@@ -110,17 +110,11 @@ router.post('/adminLogin', async (req, res) => {
     const validPassword = await bcrypt.compare(password, admin.password);
     if (!validPassword) return res.status(400).json({ message: 'Invalid email or password.' });
 
-    // Generate JWT token
-    const payload = {
-      email: admin.email,
-      // Add other user-related data to the payload if needed
-    };
-    const token = jwt.sign(payload, testJwtSecret, { expiresIn: '1h' }); // Set the expiration time as needed
-
-    // Send the token to the client
+    req.session.user = { email }; // Set user data in the session
+   
 
     res.json({
-      token ,
+      email  ,
       message: 'Login was successful.....',
       admin,
     });

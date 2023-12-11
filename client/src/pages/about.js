@@ -1,10 +1,12 @@
 import React from 'react';
 import { Container, Typography, Paper } from '@mui/material';
+import ScrollToTopOnMount from '../components/hoc/scrollToTop';
+
 
 const AboutUs = () => {
   return (
     <Container maxWidth="lg" style={{ marginTop: '80px' }}>
-      <Typography variant="h4" gutterBottom style={{ textAlign: 'center', fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+      <Typography variant="h5" gutterBottom style={{ textAlign: 'center', fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
         Welcome to Kenya Evisa
       </Typography>
 
@@ -12,14 +14,14 @@ const AboutUs = () => {
         We are your trusted partner for seamless visa processing. With a global presence, Kenya Evisa offers a stress-free and reliable solution for visa applications.
       </Typography>
 
-      <Typography variant="h6" gutterBottom id="mission" style={{ fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+      <Typography variant="h6" gutterBottom id="mission" style={{ fontFamily: 'Roboto, sans-serif' }}>
         Our Mission
       </Typography>
       <Typography variant="body1" paragraph style={{ fontFamily: 'Roboto, sans-serif', color: 'rgba(0, 0, 0, 0.87)' }}>
         At Kenya Evisa, we are committed to ensuring data integrity and providing exceptional service to our clients. We understand that your journey starts with obtaining a visa, and we are here to make that journey smooth and enjoyable.
       </Typography>
 
-      <Typography variant="h6" gutterBottom id="why-choose-us" style={{ fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+      <Typography variant="h6" gutterBottom id="mission" style={{ fontFamily: 'Roboto, sans-serif' }}>
         Why Choose Kenya Evisa?
       </Typography>
       <Typography variant="body1" paragraph style={{ fontFamily: 'Roboto, sans-serif', color: 'rgba(0, 0, 0, 0.87)' }}>
@@ -43,7 +45,7 @@ const AboutUs = () => {
         </li>
       </ul>
 
-      <Typography variant="h6" gutterBottom id="our-team" style={{ fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+      <Typography variant="h6" gutterBottom id="mission" style={{ fontFamily: 'Roboto, sans-serif' }}>
         Our Team
       </Typography>
       <Typography variant="body1" paragraph style={{ fontFamily: 'Roboto, sans-serif', color: 'rgba(0, 0, 0, 0.87)' }}>
@@ -52,17 +54,15 @@ const AboutUs = () => {
       <div style={{ display: 'flex', fontFamily: 'Roboto, sans-serif', color: 'rgba(0, 0, 0, 0.87)' }}>
         <div style={{ margin: '20px' }}>
           <img src="john-doe.jpg" alt="John Doe" style={{ width: '120px', height: '120px' }} />
-          <Typography variant="h6" style={{ color: '#1976D2' }}>Person A</Typography>
           <Typography variant="body2">Visa Processing Expert</Typography>
         </div>
         <div style={{ margin: '20px' }}>
           <img src="jane-smith.jpg" alt="Jane Smith" style={{ width: '120px', height: '120px' }} />
-          <Typography variant="h6" style={{ color: '#1976D2' }}>Person B</Typography>
           <Typography variant="body2">Customer Relations Specialist</Typography>
         </div>
       </div>
 
-      <Typography variant="h6" gutterBottom id="contact-us" style={{ fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+      <Typography variant="h6" gutterBottom id="mission" style={{ fontFamily: 'Roboto, sans-serif' }}>
         Contact Kenya Evisa
       </Typography>
       <Typography variant="body1" paragraph style={{ fontFamily: 'Roboto, sans-serif', color: 'rgba(0, 0, 0, 0.87)' }}>
@@ -78,4 +78,4 @@ const AboutUs = () => {
   );
 };
 
-export default AboutUs;
+export default ScrollToTopOnMount(AboutUs);

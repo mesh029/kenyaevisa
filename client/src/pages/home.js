@@ -42,60 +42,46 @@ const eVisaCards = [
   {
     title: 'Who needs a visa to come to Kenya?',
     description: 'Know if you meet the requirements to come to Kenya',
-    imageUrl: "https://meshackariri.sirv.com/WhatsApp%20Image%202023-12-04%20at%2013.40.25.jpeg"
+    path:"/who-needs-a-visa"
   },
   {
-    title: 'Documents Required',
+    title: 'Requirements',
     description: 'Learn about the necessary documents and requirements for your eVisa application.',
-    imageUrl: "https://meshackariri.sirv.com/visa2"
+    path:"/requirements"
   },
   {
-    title: 'Check Visa Status',
-    description: 'Track the status of your eVisa application and stay informed.',
-    imageUrl:"https://meshackariri.sirv.com/visa3.jpeg"
+    title: 'FAQs',
+    description: 'Frequently Asked Questions on E-Visas.',
+    path: "/faq"
   },
 ];
 
-const VisaCard = ({ title, description, imageUrl }) => {
-  const cardStyle = {
-    background: `url(${imageUrl}) center/cover no-repeat`,
-    minHeight: 300, // Adjust the height as needed
-    position: 'relative',
-    textAlign: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: '#fffff'
-  };
-
-  const overlayStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)', // Adjust the alpha value for transparency
-  };
+const VisaCard = ({ title, description, imageUrl, path }) => {
 
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card sx={cardStyle}>
-        <div style={overlayStyle}></div>
+      <Card>
         <CardContent>
-        <div style={{ position: 'relative', zIndex: 2 , backgroundColor:'rgba(0, 0, 0, 0.5)'}}>
-          <Typography variant="h6" align="center"    color='white' fontWeight='bold'  sx={{ fontFamily: 'Quicksand, sans-serif', fontWeight: 'bold', zIndex: 9999, textDecoration: 'underline' }}>
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <Typography variant="h6" align="center"    color='primary'  sx={{ fontFamily: 'Roboto, sans-serif', zIndex: 9999 }}>
             {title}
           </Typography>
-  <Typography align="center"  sx={{ fontFamily: 'Roboto, sans-serif', color: 'white' }}>
+  <Typography align="center"  sx={{ fontFamily: 'Roboto, sans-serif', color: 'black' }}>
     {description}
   </Typography>
 </div>
         </CardContent>
         <CardActions>
-          <Button size="small" variant='contained' color="primary" component={Link} to="/faq">
-            Read More
-          </Button>
+        <Button
+  size="small"
+  variant="contained"
+  color="primary"
+  component={Link}
+  to={`${path}`}
+  style={{ display: 'block', margin: 'auto' }}
+>
+  Read More
+</Button>
         </CardActions>
       </Card>
     </Grid>
@@ -286,14 +272,8 @@ const Home = () => {
   marginTop: '10px', // Add some top margin for spacing
 }}>Apply for fast, reliable visas to Kenya</Typography>
                 </CardContent>
-                <CardContent>
-                  <Typography  style={{ fontFamily: 'Roboto, sans-serif', color: 'rgba(0, 0, 0, 0.87)' }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum erat sit amet justo efficitur,
-                    eget egestas nisl sollicitudin.
-                  </Typography>
-                </CardContent>
                 {/* Tab group section */}
-      <Box sx={{ marginTop: 4 }}>
+      <Box sx={{ marginTop: 2 }}>
         <Tabs
           value={selectedTab}
           onChange={handleTabChange}
@@ -416,7 +396,7 @@ const Home = () => {
       <Grid container spacing={3} mb={3}>
 
       {eVisaCards.map((card, index) => (
-  <VisaCard key={index} title={card.title} description={card.description} imageUrl={card.imageUrl} />
+  <VisaCard key={index} title={card.title} description={card.description} imageUrl={card.imageUrl} path={card.path} />
 ))}
     </Grid>
 

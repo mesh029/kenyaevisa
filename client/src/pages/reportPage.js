@@ -12,11 +12,16 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CardTravelIcon from '@mui/icons-material/CardTravel';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import { useParams } from 'react-router-dom';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import ScrollToTopOnMount from '../components/hoc/scrollToTop';
+
 const ReportPage = () => {
   const { visaId } = useParams();
   const [visaData, setVisaData] = useState(null);
   const [firstVisaData, setFirstVisaData] = useState(null);
   const [userDocuments, setUserDocuments] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+
 
   useEffect(() => {
     // Fetch visa data based on the visaId
@@ -33,6 +38,26 @@ const ReportPage = () => {
   }, [visaId]);
 
 
+  const handleMarkAsProcessed = () => {
+    setOpenDialog(true);
+  };
+
+  const handleConfirmMarkAsProcessed = async () => {
+    try {
+      // Send a POST request to update the status of the selected visa to 'processed'
+      await axios.post(`https://kenyaevisa.mytests.online/api/visas/markAsProcessed/${firstVisaData._id}`);
+      // Reload the current page or redirect to another page as needed
+      window.location.reload();
+    } catch (error) {
+      console.error('Error marking visa as processed:', error);
+    } finally {
+      setOpenDialog(false);
+    }
+  };
+
+  const handleCancelMarkAsProcessed = () => {
+    setOpenDialog(false);
+  };
 
   useEffect(() => {
     if (visaData) {
@@ -43,7 +68,7 @@ const ReportPage = () => {
         try {
           const response = await axios.get(`https://kenyaevisa.mytests.online/api/files`);
           // Filter documents based on user's email
-          const userFiles = response.data.filter(file => file.user === visaData[0].personalInfo.email);
+          const userFiles = response.data.filter(file => file.user === visaData[0].uniqueId);
           setUserDocuments(userFiles);
         } catch (error) {
           console.error('Error fetching user documents:', error);
@@ -102,6 +127,32 @@ const ReportPage = () => {
             </Typography>
 
           </div>
+
+                      {/* Button to mark visa as processed */}
+                      {firstVisaData.status === 'pending' && (
+            <Button variant="contained"  color="primary" onClick={handleMarkAsProcessed} style={{ marginTop: '16px', marginBottom:"12px" }}>
+              Mark visa as Processed
+            </Button>
+          )}
+
+
+          {/* Confirmation Dialog */}
+          <Dialog open={openDialog} onClose={handleCancelMarkAsProcessed}>
+            <DialogTitle>Confirm Marking as Processed</DialogTitle>
+            <DialogContent>
+              Are you sure you want to mark this visa as processed?
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCancelMarkAsProcessed} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleConfirmMarkAsProcessed} color="primary">
+                Confirm
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <br/>
 
           <Divider />
 
@@ -254,4 +305,5 @@ const ReportPage = () => {
   );
 };
 
-export default ReportPage;
+
+export default ScrollToTopOnMount(ReportPage);

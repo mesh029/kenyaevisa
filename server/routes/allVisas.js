@@ -3,9 +3,20 @@ const router = express.Router();
 const VisaApplication = require('../models/visaModel');
 
 
+// Middleware to check if the user is authenticated
+const authenticateUser = (req, res, next) => {
+  if (req.session && req.session.user) {
+    return next();
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+};
+
+
+// Middleware to check if the user is authenticated
 
 // get all visas
-router.get('/', async (req, res) => {
+router.get('/', authenticateUser, async (req, res) => {
     try {
       // Your existing route logic goes here
       const visas = await VisaApplication.find();

@@ -3,8 +3,7 @@ import { Container, Typography, Accordion, AccordionSummary, AccordionDetails, T
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ScrollToTopOnMount from '../components/hoc/scrollToTop';
 
-
-const FAQ = () => {
+const Documents = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchTerms, setSearchTerms] = useState({});
 
@@ -115,70 +114,147 @@ const FAQ = () => {
   ];
   return (
     <Container maxWidth="lg" style={{ marginTop: '80px', minHeight: '100vh' }}>
-    <Typography variant="h5" gutterBottom style={{ textAlign: 'center', fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
-      Frequently Asked Questions
+    <Typography variant="h6" gutterBottom style={{ textAlign: 'center', fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+      Documents required for a Visa Application
     </Typography>
-      <Accordion id="time-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            How long does take to get a visa?
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          How long it actually takes to get a visa
-        </AccordionDetails>
-      </Accordion>
 
-      <Accordion id="validity-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            How long is a visa valid for?
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        Answer        </AccordionDetails>
-      </Accordion>
 
-      <Accordion id="refund-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            Will my fees be returened if my application is denied??
+          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Quicksand, sans-serif', color: '#1976D2', fontWeight: 'bold' }}>
+            What Documents are Required for a Visa Application?
           </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        Answer        </AccordionDetails>
-      </Accordion>
 
-      <Accordion id="visited-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            I have already visited the destination country, do I need to apply for another e-visa?
+          <Typography variant="body1" paragraph style={{ fontFamily: 'Roboto, sans-serif', color: 'rgba(0, 0, 0, 0.87)' }}>
+            The specific documents required for a visa application may vary based on the type of visa and individual circumstances. However, common documents include:
           </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        Answer        </AccordionDetails>
-      </Accordion>
+          <List style={{ fontFamily: 'Roboto, sans-serif', color: 'rgba(0, 0, 0, 0.87)', paddingLeft: '20px' }}>
+            <ListItem>
+              <ListItemText
+                primary={<strong>For Single Entry Visa:</strong>}
+                secondary={
+                  <List>
+                    <ListItem>
+                      <ListItemText primary="Valid travel document not less than six months." />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText primary="At least one blank page in the holder's passport." />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary={<strong>Validity:</strong>}
+                        secondary="Category 2 single entry visa is valid for travel within 3 months from the date of issue beyond which another visa may need to be applied for."
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary={<strong>Fees:</strong>}
+                        secondary="We charge a fee of 150 USD for the processing of this visa with a guarantee of delivery of not more than three working days from the day we receive your application."
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary={<strong>Attachments:</strong>}
+                        secondary={
+                          <List>
+                            <ListItem>
+                              <ListItemText
+                                primary={<strong>For Business Visits:</strong>}
+                                secondary={
+                                  <List>
+                                    <ListItem>
+                                      <ListItemText primary="Invitation letter from the company." />
+                                    </ListItem>
+                                    <ListItem>
+                                      <ListItemText primary="Copy of registration of the company." />
+                                    </ListItem>
+                                  </List>
+                                }
+                              />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText
+                                primary={<strong>For Family Visits:</strong>}
+                                secondary={
+                                  <List>
+                                    <ListItem>
+                                      <ListItemText primary="Invitation letter from family." />
+                                    </ListItem>
+                                    <ListItem>
+                                      <ListItemText primary="Identity card / Passport / Alien card / Entry permit of the host." />
+                                    </ListItem>
+                                  </List>
+                                }
+                              />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText
+                                primary={<strong>For Tourists:</strong>}
+                                secondary={
+                                  <List>
+                                    <ListItem>
+                                      <ListItemText primary="Travel itinerary (Details about places to visit if going as a tourist)." />
+                                    </ListItem>
+                                    <ListItem>
+                                      <ListItemText primary="Hotel bookings." />
+                                    </ListItem>
+                                    <ListItem>
+                                      <ListItemText primary="Identity Documents." />
+                                    </ListItem>
+                                    <ListItem>
+                                      <ListItemText primary="A clear passport biodata page." />
+                                    </ListItem>
+                                    <ListItem>
+                                      <ListItemText primary="A clear photograph." />
+                                    </ListItem>
+                                  </List>
+                                }
+                              />
+                            </ListItem>
+                          </List>
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary={<strong>Photo Requirements:</strong>}
+                        secondary={
+                          <List>
+                            <ListItem>
+                              <ListItemText primary="Do not take a photograph or scan the photo in your passport biodata page." />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText primary="The photo must have been taken within the past 6 months, showing your current appearance." />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText primary="Must be in color." />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText primary="Must show your full face, front view with a plain white or off-white background." />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText primary="Must be 2 by 2 inches." />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText primary="Must be taken in normal street attire. Uniforms should NOT be worn in photographs except religious attire that is worn daily." />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText primary="Do not wear a hat or headgear that obscures the hair or hairline." />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText primary="If you normally wear prescription glasses, a hearing device, wig, or similar articles, they should be worn for your picture." />
+                            </ListItem>
+                            <ListItem>
+                              <ListItemText primary="Dark glasses or non-prescription glasses with tinted lenses are not acceptable unless you need them for medical reasons. A medical certificate may be required." />
+                            </ListItem>
+                          </List>
+                        }
+                      />
+                    </ListItem>
+                  </List>
+                }
+              />
+            </ListItem>
+          </List>
 
-      <Accordion id="exted-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif' }}>
-            Can I extend my stay in destination country?
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-        Answer        </AccordionDetails>
-      </Accordion>
-
-      <Accordion id="requirements-for-e-visa">
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography variant="h6" gutterBottom style={{ fontFamily: 'Roboto, sans-serif'}}>
-            If I cancel my online order will my fees be refunded?
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          Answer
-        </AccordionDetails>
-      </Accordion>
 
     {/* Add more FAQ items as needed */}
   </Container>
@@ -186,5 +262,4 @@ const FAQ = () => {
   );
 };
 
-
-export default ScrollToTopOnMount(FAQ);
+export default ScrollToTopOnMount(Documents);

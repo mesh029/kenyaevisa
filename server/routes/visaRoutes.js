@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const VisaApplication = require('../models/visaModel');
 
+// Middleware to check if the user is authenticated
+const authenticateUser = (req, res, next) => {
+  if (req.session && req.session.user) {
+    return next();
+  } else {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+};
+
+
 // Endpoint to handle visa applications
 router.post('/', async (req, res) => {
   const flattenedData = req.body;
@@ -22,7 +32,7 @@ router.post('/', async (req, res) => {
 });
 
 
-router.get('/:userId', async (req, res) => {
+router.get('/:userId',authenticateUser, async (req, res) => {
   const userId = req.params.userId;
 
   try {
@@ -34,7 +44,7 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-router.get('/visa/:visaId', async (req, res) => {
+router.get('/visa/:visaId', authenticateUser, async (req, res) => {
   const visaId = req.params.visaId;
 
   try {
@@ -87,4 +97,22 @@ router.delete('/visa/:id', async (req, res) => {
   }
 });
 
+
+router.post('/markAsProcessed/:visaId', async (req, res) => {
+  const { visaId } = req.params;
+
+  try {
+    // Find the visa by ID and update its status to 'processed'
+    const updatedVisa = await VisaApplication.findByIdAndUpdate(visaId, { status: 'processed' }, { new: true });
+
+    if (!updatedVisa) {
+      return res.status(404).json({ message: 'Visa not found' });
+    }
+
+    res.json({ message: 'Visa marked as processed successfully', visa: updatedVisa });
+  } catch (error) {
+    console.error('Error marking visa as processed:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 module.exports = router;

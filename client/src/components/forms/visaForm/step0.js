@@ -8,7 +8,41 @@ import FastTrackIcon from '@mui/icons-material/FlashOn'; // Import an icon for t
 import StandardIcon from '@mui/icons-material/AccessTime'; // Import an icon for the standard option
 
 
-const Step0 = ({ values, handleChange, handleCardClick }) => {
+const Step0 = ({ visaType, values, handleChange, handleCardClick }) => {
+
+  const getCostForVisaType = (visaType) => {
+    switch (visaType) {
+      case 'Tourist Visa':
+        return '$80';
+      case 'Transit Visa':
+        return '$40';
+      case 'Single Entry Visa':
+        return '$80';
+      case 'East Africa Tourist Visa':
+        return '$150';
+      case 'Referred Visa':
+        return '$200';
+      default:
+        return 'Default Cost';
+    }
+  };
+
+  const getCostForVisaTypeB = (visaType) => {
+    switch (visaType) {
+      case 'Tourist Visa':
+        return '$110';
+      case 'Transit Visa':
+        return '$50';
+      case 'Single Entry Visa':
+        return '$110';
+      case 'East Africa Tourist Visa':
+        return '$180';
+      case 'Referred Visa':
+        return '$300';
+      default:
+        return 'Default Cost';
+    }
+  };
 
   return (
     <Container maxWidth="sm">
@@ -38,7 +72,10 @@ const Step0 = ({ values, handleChange, handleCardClick }) => {
             </Typography>
             <FastTrackIcon style={{ fontSize: 40, color: '#FF5722' }} />
             <Typography variant="body1" color="text.secondary" sx={{ marginTop: 2 }}>
-              Your visa will be processed within 1 hour of payment.
+              Your visa will be processed within 48 hours of payment.
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ marginTop: 2 }}>
+              Cost: {getCostForVisaTypeB(visaType)}
             </Typography>
           </CardContent>
         </Card>
@@ -65,7 +102,10 @@ const Step0 = ({ values, handleChange, handleCardClick }) => {
             </Typography>
             <StandardIcon style={{ fontSize: 40, color: '#2196F3' }} />
             <Typography variant="body1" color="text.secondary" sx={{ marginTop: 2 }}>
-              Your visa will be processed within 48 to 52 hours of payment.
+              Your visa will be processed in 4 days.
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ marginTop: 2 }}>
+              Cost: {getCostForVisaType(visaType)}
             </Typography>
           </CardContent>
         </Card>

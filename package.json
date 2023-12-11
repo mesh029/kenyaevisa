@@ -9,6 +9,7 @@
   "author": "mesh",
   "license": "ISC",
   "dependencies": {
-    "multer-gridfs-storage": "^5.0.2"
+    "multer-gridfs-storage": "^5.0.2",
+    "stream-browserify": "^3.0.0"
   }
 }

@@ -12,11 +12,21 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const cloudinary = require('cloudinary').v2;
 const { Readable } = require('stream');
+const session = require('express-session');
+const app = express();
 
 
 require('dotenv').config();
 
-const app = express();
+// Set up session middleware
+app.use(session({
+  secret: 'your-secret-key', // Change this to a strong secret
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }, // Set to true if using HTTPS
+}));
+
+
 
 const CLIENT_PORT = process.env.CLIENT_PORT || 5000;
 const SERVER_PORT = process.env.SERVER_PORT || 2000;
